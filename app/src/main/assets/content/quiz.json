@@ -1,0 +1,164 @@
+{
+  "source": "docs/09-education-curriculum.md §4 (sample trial questions)",
+  "review": "Draft questions. Not yet reviewed by a pediatric professional.",
+  "pre": [
+    {
+      "id": "cues",
+      "text": "The baby turns toward your hand with an open mouth and brings their fists to their mouth. The last feed started two and a half hours ago. What's a good next step?",
+      "options": [
+        { "id": "a", "text": "Offer a feed: these can be early hunger cues" },
+        { "id": "b", "text": "Wait until the baby cries, so you know for sure" },
+        { "id": "c", "text": "Lay the baby down for a nap" },
+        { "id": "d", "text": "Offer a little water first" }
+      ],
+      "answer": "a",
+      "explain": "Rooting and hands to the mouth can be early hunger cues. Crying is a late cue, and feeding is easier before it. Babies under 6 months don't need water.",
+      "lesson": "L-FEED-01"
+    },
+    {
+      "id": "fullness",
+      "text": "During a bottle feed, the baby turns away and closes their mouth. About a third of the bottle is left.",
+      "options": [
+        { "id": "a", "text": "Encourage them to finish so they sleep longer" },
+        { "id": "b", "text": "Pause, and if they stay turned away, end the feed" },
+        { "id": "c", "text": "Prop the bottle so they can keep sipping" },
+        { "id": "d", "text": "Add cereal to the next bottle" }
+      ],
+      "answer": "b",
+      "explain": "Turning away and closing the mouth can mean full. Let the baby decide how much. Never prop a bottle, and don't add cereal to a bottle unless a clinician says so.",
+      "lesson": "L-FEED-04"
+    },
+    {
+      "id": "sleep",
+      "text": "The bassinet has a loose blanket and a soft toy in it. What do you do before laying the baby down to sleep?",
+      "options": [
+        { "id": "a", "text": "Leave the blanket in; it keeps them warm" },
+        { "id": "b", "text": "Lay them on their side so they can see the toy" },
+        { "id": "c", "text": "Remove both, and lay the baby on their back on the firm, flat mattress" },
+        { "id": "d", "text": "Add a pillow to support their head" }
+      ],
+      "answer": "c",
+      "explain": "Every sleep: on the back, alone, in a clear infant sleep space with a firm, flat mattress and a fitted sheet.",
+      "lesson": "L-SLEEP-01"
+    },
+    {
+      "id": "crying",
+      "text": "The baby is still fussy after a feed, a burp and a diaper change, and you feel overwhelmed.",
+      "options": [
+        { "id": "a", "text": "Keep jiggling harder until the crying stops" },
+        { "id": "b", "text": "Check other possible needs. If you're overwhelmed, lay the baby on their back in a safe crib and take a short break or ask for help" },
+        { "id": "c", "text": "Offer another full feed every time they cry" },
+        { "id": "d", "text": "Leave the baby on the changing table while you rest" }
+      ],
+      "answer": "b",
+      "explain": "Some crying continues even after good care. Never shake a baby. A safe break (baby on their back in a clear crib) and asking for help are good care.",
+      "lesson": "L-CRY-04"
+    },
+    {
+      "id": "helper",
+      "text": "Your helper took the 3 AM feed so you could sleep. How should you think about that feed?",
+      "options": [
+        { "id": "a", "text": "It doesn't count, since you didn't do it" },
+        { "id": "b", "text": "It means the baby needed less care that night" },
+        { "id": "c", "text": "The work still happened. Plan who covers it next time" },
+        { "id": "d", "text": "The helper should only cover emergencies" }
+      ],
+      "answer": "c",
+      "explain": "Covered care is still care. Planning who covers which night wake is part of getting ready.",
+      "lesson": "L-PAR-02"
+    },
+    {
+      "id": "diaper",
+      "text": "You're about to change a diaper on a changing table. What comes first?",
+      "options": [
+        { "id": "a", "text": "Lay the baby down, then look for the wipes" },
+        { "id": "b", "text": "Gather the diaper, wipes and clothes first, then keep one hand on the baby" },
+        { "id": "c", "text": "Pull the new diaper up over the umbilical cord stump" },
+        { "id": "d", "text": "Wipe back to front" }
+      ],
+      "answer": "b",
+      "explain": "Supplies first, a hand on the baby on any raised surface, wipe front to back, and fold the diaper below the cord stump.",
+      "lesson": "L-HYG-01"
+    }
+  ],
+  "post": [
+    {
+      "id": "cues",
+      "text": "Three hours after a feed, the baby is smacking their lips and turning their head side to side with an open mouth.",
+      "options": [
+        { "id": "a", "text": "These can be hunger cues: check the timing and offer a feed" },
+        { "id": "b", "text": "It's just a reflex, so ignore it until they cry" },
+        { "id": "c", "text": "Start tummy time" },
+        { "id": "d", "text": "Give a little juice" }
+      ],
+      "answer": "a",
+      "explain": "Lip smacking and rooting are common early hunger cues. Respond before crying starts. Juice isn't recommended for infants.",
+      "lesson": "L-FEED-01"
+    },
+    {
+      "id": "fullness",
+      "text": "Halfway through a feed, the baby's sucking slows, their hands relax and they push the nipple out.",
+      "options": [
+        { "id": "a", "text": "Keep offering until the bottle is empty" },
+        { "id": "b", "text": "These can be fullness cues: pause, and end the feed if they stay turned away" },
+        { "id": "c", "text": "Wake them up so they finish" },
+        { "id": "d", "text": "Warm the bottle in the microwave and try again" }
+      ],
+      "answer": "b",
+      "explain": "Relaxed hands, slow sucking and pushing the nipple out can mean full. Never microwave a bottle: hot spots can burn.",
+      "lesson": "L-FEED-04"
+    },
+    {
+      "id": "sleep",
+      "text": "The baby fell asleep in your arms on the sofa, and you're getting sleepy too.",
+      "options": [
+        { "id": "a", "text": "Stay on the sofa; you'll wake up if they move" },
+        { "id": "b", "text": "Lay them on their tummy on the sofa so they sleep longer" },
+        { "id": "c", "text": "Prop them in the car seat on the floor" },
+        { "id": "d", "text": "Lay them on their back in a clear bassinet, or hand off to someone awake" }
+      ],
+      "answer": "d",
+      "explain": "Falling asleep with a baby on a sofa or armchair is dangerous. Move them to a safe sleep space on their back, or hand off.",
+      "lesson": "L-SLEEP-08"
+    },
+    {
+      "id": "crying",
+      "text": "It's evening and the baby has fussed on and off for an hour, even though they've been fed, changed and burped.",
+      "options": [
+        { "id": "a", "text": "Assume you're doing something wrong and keep trying new things faster" },
+        { "id": "b", "text": "Try calm holding, rocking or shushing, share the work, and take a safe break if you need one" },
+        { "id": "c", "text": "Feed again every few minutes until they stop" },
+        { "id": "d", "text": "Close the door and leave them crying for the rest of the night" }
+      ],
+      "answer": "b",
+      "explain": "Evening fussing is common and can persist after good care. Soothe, share the load and take safe breaks. Ask a clinician about crying that seems unusual.",
+      "lesson": "L-CRY-03"
+    },
+    {
+      "id": "helper",
+      "text": "You handed off the rest of the night because you were exhausted. What does that show?",
+      "options": [
+        { "id": "a", "text": "That you failed the trial" },
+        { "id": "b", "text": "That the night was easy" },
+        { "id": "c", "text": "That asking for help is part of good care, and the work still had to be done by someone" },
+        { "id": "d", "text": "That helpers should never be needed" }
+      ],
+      "answer": "c",
+      "explain": "Handing off is a safe, responsible choice. Real families plan shifts and ask for help.",
+      "lesson": "L-PAR-04"
+    },
+    {
+      "id": "diaper",
+      "text": "Mid-change, you realize the wipes are across the room.",
+      "options": [
+        { "id": "a", "text": "Dash over quickly; it only takes a second" },
+        { "id": "b", "text": "Pick the baby up and take them with you" },
+        { "id": "c", "text": "Leave the baby on the table with a toy" },
+        { "id": "d", "text": "Skip cleaning this time" }
+      ],
+      "answer": "b",
+      "explain": "Never leave a baby on a raised surface, even for a second. Take them with you, and gather supplies first next time.",
+      "lesson": "L-SAFE-05"
+    }
+  ]
+}

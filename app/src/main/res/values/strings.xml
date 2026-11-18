@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Children Simulator</string>
+    <string name="channel_care">Baby care</string>
+    <string name="channel_care_desc">Reminders when your virtual baby needs care while you are on duty.</string>
+    <string name="channel_night">Night wake-ups (Extreme Real)</string>
+    <string name="channel_night_desc">Opt-in audible wake-ups during your sleep window. At most two per night.</string>
+    <string name="channel_summary">Summaries</string>
+    <string name="channel_summary_desc">Helper summaries and trial updates.</string>
+</resources>

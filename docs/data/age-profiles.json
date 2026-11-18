@@ -1,0 +1,403 @@
+{
+  "schema": "children-simulator/age-profiles",
+  "version": 2,
+  "status": "Draft gameplay parameters for calibration. Real care education has its own sources and review records.",
+  "conventions": {
+    "age": "Age days use half-up rounding from a 365.25-day model year. Runtime age may be fractional.",
+    "ranges": "Inclusive [minimum, maximum] ranges. Fractional values after interpolation are allowed until a process samples a count.",
+    "interpolation": "Resolve stage from stageStarts. Interpolate continuous values as described in docs/01-age-and-time-model.md. Step and capability rules govern discrete actions.",
+    "null": "The field supplies no value at this age.",
+    "time": "Elapsed units are real time. Full-day balance targets use 24 real hours. Quiet-phase and overnight balance examples use 23:00–07:00 as their shared reference window."
+  },
+  "calendar": {
+    "modelYearDays": 365.25,
+    "terminalAgeDays": 6575,
+    "chapterStartDays": [
+      0,
+      30,
+      61,
+      91,
+      122,
+      152,
+      183,
+      213,
+      244,
+      274,
+      304,
+      335,
+      365,
+      396,
+      426,
+      457,
+      487,
+      517,
+      548,
+      578,
+      609,
+      639,
+      670,
+      700,
+      731,
+      1096,
+      1461,
+      1826,
+      2192,
+      2557,
+      2922,
+      3287,
+      3653,
+      4018,
+      4383,
+      4748,
+      5114,
+      5479,
+      5844,
+      6209
+    ],
+    "stageStarts": [
+      {
+        "id": "S0",
+        "ageDays": 0,
+        "label": "Newborn"
+      },
+      {
+        "id": "S1",
+        "ageDays": 30,
+        "label": "Early infant"
+      },
+      {
+        "id": "S2",
+        "ageDays": 122,
+        "label": "Infant"
+      },
+      {
+        "id": "S3",
+        "ageDays": 213,
+        "label": "Mobile infant"
+      },
+      {
+        "id": "S4",
+        "ageDays": 304,
+        "label": "Late infant"
+      },
+      {
+        "id": "S5",
+        "ageDays": 365,
+        "label": "Young toddler"
+      },
+      {
+        "id": "S6",
+        "ageDays": 548,
+        "label": "Toddler"
+      },
+      {
+        "id": "S7",
+        "ageDays": 731,
+        "label": "Two-year-old"
+      },
+      {
+        "id": "S8",
+        "ageDays": 1096,
+        "label": "Preschooler"
+      },
+      {
+        "id": "S9",
+        "ageDays": 1826,
+        "label": "Early school age"
+      },
+      {
+        "id": "S10",
+        "ageDays": 2922,
+        "label": "Middle childhood"
+      },
+      {
+        "id": "S11",
+        "ageDays": 4383,
+        "label": "Teen"
+      }
+    ]
+  },
+  "growthPaces": {
+    "standardBands": [
+      {
+        "endAgeDays": 30,
+        "realDays": 7
+      },
+      {
+        "endAgeDays": 122,
+        "realDays": 9
+      },
+      {
+        "endAgeDays": 365,
+        "realDays": 16
+      },
+      {
+        "endAgeDays": 731,
+        "realDays": 12
+      },
+      {
+        "endAgeDays": 1826,
+        "realDays": 18
+      },
+      {
+        "endAgeDays": 4383,
+        "realDays": 21
+      },
+      {
+        "endAgeDays": 6575,
+        "realDays": 12
+      }
+    ],
+    "durationMultiplier": {
+      "fast": 0.5,
+      "standard": 1,
+      "slow": 2
+    }
+  },
+  "tuning": {
+    "incompleteFeedDemand": {
+      "base": 0.3,
+      "intakeWeight": 0.7,
+      "minFactor": 0.4,
+      "maxFactor": 1
+    },
+    "intervalJitterSigma": {
+      "regular": 0.08,
+      "average": 0.14,
+      "irregular": 0.2
+    },
+    "escalationDurationFactor": [0.6, 1.4]
+  },
+  "anchors": [
+    {
+      "id": "d0",
+      "ageDays": 0,
+      "feeding": { "milkFeedsPerDay": { "breast": [8, 12], "formula": [8, 12] }, "quietToActiveIntervalRatio": 1, "quietPhaseMilkStartsPerDay": [3, 4], "solidMealsPerDay": [0, 0], "snacksPerDay": [0, 0] },
+      "diaper": { "changesPerDay": [6, 10], "stoolsPerDay": { "breast": [1, 4], "formula": [1, 4] } },
+      "sleep": { "totalHoursPerDay": [14, 17], "daytimeNaps": [4, 7], "wakeWindowMin": [35, 60], "bedtimeLocal": null, "circadianStrength": 0 },
+      "distress": { "fussCryMinutesPerDay": [30, 90], "tantrumsPerWeek": null, "cueToFussMin": [2, 8], "fussToCryMin": [2, 6], "cryToHardCryMin": [3, 8], "handoffAfterCryingMin": [20, 40], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [25, 35], "alertGroupsPerDay": [18, 25], "overnightWakeGroupsPerNight": [3, 4] }
+    },
+    {
+      "id": "d7",
+      "ageDays": 7,
+      "feeding": { "milkFeedsPerDay": { "breast": [8, 12], "formula": [7, 10] }, "quietToActiveIntervalRatio": 1, "quietPhaseMilkStartsPerDay": [2, 4], "solidMealsPerDay": [0, 0], "snacksPerDay": [0, 0] },
+      "diaper": { "changesPerDay": [8, 12], "stoolsPerDay": { "breast": [3, 8], "formula": [1, 4] } },
+      "sleep": { "totalHoursPerDay": [14, 17], "daytimeNaps": [4, 7], "wakeWindowMin": [40, 60], "bedtimeLocal": null, "circadianStrength": 0 },
+      "distress": { "fussCryMinutesPerDay": [60, 120], "tantrumsPerWeek": null, "cueToFussMin": [2, 8], "fussToCryMin": [2, 6], "cryToHardCryMin": [3, 8], "handoffAfterCryingMin": [20, 40], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [25, 35], "alertGroupsPerDay": [18, 25], "overnightWakeGroupsPerNight": [2, 4] }
+    },
+    {
+      "id": "d14",
+      "ageDays": 14,
+      "feeding": { "milkFeedsPerDay": { "breast": [8, 12], "formula": [7, 9] }, "quietToActiveIntervalRatio": 1, "quietPhaseMilkStartsPerDay": [2, 3], "solidMealsPerDay": [0, 0], "snacksPerDay": [0, 0] },
+      "diaper": { "changesPerDay": [8, 12], "stoolsPerDay": { "breast": [3, 8], "formula": [1, 4] } },
+      "sleep": { "totalHoursPerDay": [14, 17], "daytimeNaps": [4, 6], "wakeWindowMin": [45, 60], "bedtimeLocal": null, "circadianStrength": 0.05 },
+      "distress": { "fussCryMinutesPerDay": [90, 150], "tantrumsPerWeek": null, "cueToFussMin": [2, 8], "fussToCryMin": [2, 6], "cryToHardCryMin": [3, 8], "handoffAfterCryingMin": [20, 40], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [24, 32], "alertGroupsPerDay": [18, 24], "overnightWakeGroupsPerNight": [2, 3] }
+    },
+    {
+      "id": "m1",
+      "ageDays": 30,
+      "feeding": { "milkFeedsPerDay": { "breast": [8, 10], "formula": [6, 8] }, "quietToActiveIntervalRatio": 1.2, "quietPhaseMilkStartsPerDay": [2, 3], "solidMealsPerDay": [0, 0], "snacksPerDay": [0, 0] },
+      "diaper": { "changesPerDay": [8, 10], "stoolsPerDay": { "breast": [1, 6], "formula": [1, 3] } },
+      "sleep": { "totalHoursPerDay": [14, 17], "daytimeNaps": [4, 6], "wakeWindowMin": [45, 75], "bedtimeLocal": ["21:00", "23:00"], "circadianStrength": 0.15 },
+      "distress": { "fussCryMinutesPerDay": [120, 180], "tantrumsPerWeek": null, "cueToFussMin": [2, 8], "fussToCryMin": [2, 6], "cryToHardCryMin": [3, 8], "handoffAfterCryingMin": [20, 40], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [22, 30], "alertGroupsPerDay": [17, 23], "overnightWakeGroupsPerNight": [2, 3] }
+    },
+    {
+      "id": "m2",
+      "ageDays": 61,
+      "feeding": { "milkFeedsPerDay": { "breast": [7, 9], "formula": [6, 8] }, "quietToActiveIntervalRatio": 1.35, "quietPhaseMilkStartsPerDay": [1, 3], "solidMealsPerDay": [0, 0], "snacksPerDay": [0, 0] },
+      "diaper": { "changesPerDay": [7, 9], "stoolsPerDay": { "breast": [0, 5], "formula": [1, 3] } },
+      "sleep": { "totalHoursPerDay": [14, 17], "daytimeNaps": [4, 5], "wakeWindowMin": [60, 90], "bedtimeLocal": ["20:00", "22:00"], "circadianStrength": 0.35 },
+      "distress": { "fussCryMinutesPerDay": [120, 180], "tantrumsPerWeek": null, "cueToFussMin": [3, 10], "fussToCryMin": [3, 8], "cryToHardCryMin": [5, 10], "handoffAfterCryingMin": [20, 40], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [20, 28], "alertGroupsPerDay": [16, 22], "overnightWakeGroupsPerNight": [1, 3] }
+    },
+    {
+      "id": "m3",
+      "ageDays": 91,
+      "feeding": { "milkFeedsPerDay": { "breast": [6, 8], "formula": [5, 7] }, "quietToActiveIntervalRatio": 1.5, "quietPhaseMilkStartsPerDay": [1, 2], "solidMealsPerDay": [0, 0], "snacksPerDay": [0, 0] },
+      "diaper": { "changesPerDay": [6, 8], "stoolsPerDay": { "breast": [0, 4], "formula": [1, 3] } },
+      "sleep": { "totalHoursPerDay": [14, 17], "daytimeNaps": [4, 5], "wakeWindowMin": [75, 120], "bedtimeLocal": ["19:00", "20:30"], "circadianStrength": 0.6 },
+      "distress": { "fussCryMinutesPerDay": [60, 120], "tantrumsPerWeek": null, "cueToFussMin": [3, 10], "fussToCryMin": [3, 8], "cryToHardCryMin": [5, 10], "handoffAfterCryingMin": [20, 40], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [18, 26], "alertGroupsPerDay": [15, 21], "overnightWakeGroupsPerNight": [1, 2] }
+    },
+    {
+      "id": "m4",
+      "ageDays": 122,
+      "feeding": { "milkFeedsPerDay": { "breast": [6, 8], "formula": [5, 6] }, "quietToActiveIntervalRatio": 1.65, "quietPhaseMilkStartsPerDay": [1, 2], "solidMealsPerDay": [0, 0], "snacksPerDay": [0, 0] },
+      "diaper": { "changesPerDay": [6, 8], "stoolsPerDay": { "breast": [0, 4], "formula": [1, 3] } },
+      "sleep": { "totalHoursPerDay": [12, 16], "daytimeNaps": [3, 4], "wakeWindowMin": [90, 150], "bedtimeLocal": ["18:30", "20:00"], "circadianStrength": 0.8 },
+      "distress": { "fussCryMinutesPerDay": [45, 90], "tantrumsPerWeek": null, "cueToFussMin": [3, 10], "fussToCryMin": [3, 8], "cryToHardCryMin": [5, 10], "handoffAfterCryingMin": [20, 40], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [16, 24], "alertGroupsPerDay": [14, 20], "overnightWakeGroupsPerNight": [1, 3] }
+    },
+    {
+      "id": "m6",
+      "ageDays": 183,
+      "feeding": { "milkFeedsPerDay": { "breast": [5, 6], "formula": [4, 5] }, "quietToActiveIntervalRatio": 2, "quietPhaseMilkStartsPerDay": [0, 1], "solidMealsPerDay": [1, 2], "snacksPerDay": [0, 0] },
+      "diaper": { "changesPerDay": [5, 7], "stoolsPerDay": { "breast": [1, 3], "formula": [1, 3] } },
+      "sleep": { "totalHoursPerDay": [12, 16], "daytimeNaps": [2, 3], "wakeWindowMin": [120, 180], "bedtimeLocal": ["18:30", "20:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": [30, 60], "tantrumsPerWeek": null, "cueToFussMin": [5, 15], "fussToCryMin": [5, 10], "cryToHardCryMin": [5, 15], "handoffAfterCryingMin": [20, 45], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [15, 22], "alertGroupsPerDay": [13, 18], "overnightWakeGroupsPerNight": [0, 2] }
+    },
+    {
+      "id": "m7",
+      "ageDays": 213,
+      "feeding": { "milkFeedsPerDay": { "breast": [4, 6], "formula": [4, 5] }, "quietToActiveIntervalRatio": 2.15, "quietPhaseMilkStartsPerDay": [0, 1], "solidMealsPerDay": [1, 2], "snacksPerDay": [0, 0] },
+      "diaper": { "changesPerDay": [5, 7], "stoolsPerDay": { "breast": [1, 3], "formula": [1, 3] } },
+      "sleep": { "totalHoursPerDay": [12, 16], "daytimeNaps": [2, 3], "wakeWindowMin": [130, 190], "bedtimeLocal": ["18:30", "20:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": [30, 60], "tantrumsPerWeek": null, "cueToFussMin": [5, 15], "fussToCryMin": [5, 10], "cryToHardCryMin": [5, 15], "handoffAfterCryingMin": [20, 45], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [15, 22], "alertGroupsPerDay": [13, 18], "overnightWakeGroupsPerNight": [0, 2] }
+    },
+    {
+      "id": "m9",
+      "ageDays": 274,
+      "feeding": { "milkFeedsPerDay": { "breast": [4, 5], "formula": [3, 4] }, "quietToActiveIntervalRatio": 2.4, "quietPhaseMilkStartsPerDay": [0, 1], "solidMealsPerDay": [2, 3], "snacksPerDay": [0, 1] },
+      "diaper": { "changesPerDay": [5, 7], "stoolsPerDay": { "breast": [1, 3], "formula": [1, 3] } },
+      "sleep": { "totalHoursPerDay": [12, 16], "daytimeNaps": [2, 2], "wakeWindowMin": [150, 210], "bedtimeLocal": ["18:30", "20:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": [20, 60], "tantrumsPerWeek": null, "cueToFussMin": [5, 15], "fussToCryMin": [5, 10], "cryToHardCryMin": [5, 15], "handoffAfterCryingMin": [20, 45], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [16, 22], "alertGroupsPerDay": [14, 19], "overnightWakeGroupsPerNight": [0, 1] }
+    },
+    {
+      "id": "m10",
+      "ageDays": 304,
+      "feeding": { "milkFeedsPerDay": { "breast": [3, 5], "formula": [3, 4] }, "quietToActiveIntervalRatio": 2.5, "quietPhaseMilkStartsPerDay": [0, 1], "solidMealsPerDay": [2, 3], "snacksPerDay": [0, 1] },
+      "diaper": { "changesPerDay": [5, 7], "stoolsPerDay": { "breast": [1, 3], "formula": [1, 3] } },
+      "sleep": { "totalHoursPerDay": [12, 16], "daytimeNaps": [2, 2], "wakeWindowMin": [155, 215], "bedtimeLocal": ["18:30", "20:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": [20, 60], "tantrumsPerWeek": null, "cueToFussMin": [5, 15], "fussToCryMin": [5, 10], "cryToHardCryMin": [5, 15], "handoffAfterCryingMin": [20, 45], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 2] },
+      "attention": { "needEpisodesPerDay": [16, 22], "alertGroupsPerDay": [14, 19], "overnightWakeGroupsPerNight": [0, 1] }
+    },
+    {
+      "id": "m12",
+      "ageDays": 365,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [2, 3] },
+      "diaper": { "changesPerDay": [5, 6], "stoolsPerDay": { "any": [1, 2] } },
+      "sleep": { "totalHoursPerDay": [11, 14], "daytimeNaps": [1, 2], "wakeWindowMin": [180, 240], "bedtimeLocal": ["18:30", "20:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": [15, 45], "tantrumsPerWeek": [0, 2], "cueToFussMin": [5, 15], "fussToCryMin": [5, 10], "cryToHardCryMin": [5, 15], "handoffAfterCryingMin": [20, 45], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 1] },
+      "attention": { "needEpisodesPerDay": [16, 22], "alertGroupsPerDay": [14, 19], "overnightWakeGroupsPerNight": [0, 1] }
+    },
+    {
+      "id": "m18",
+      "ageDays": 548,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [2, 3] },
+      "diaper": { "changesPerDay": [4, 6], "stoolsPerDay": { "any": [1, 2] } },
+      "sleep": { "totalHoursPerDay": [11, 14], "daytimeNaps": [1, 1], "wakeWindowMin": [300, 360], "bedtimeLocal": ["19:00", "20:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": [1, 5], "cueToFussMin": [5, 20], "fussToCryMin": [5, 15], "cryToHardCryMin": [3, 10], "handoffAfterCryingMin": [10, 30], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 1] },
+      "attention": { "needEpisodesPerDay": [16, 22], "alertGroupsPerDay": [14, 18], "overnightWakeGroupsPerNight": [0, 1] }
+    },
+    {
+      "id": "y2",
+      "ageDays": 731,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [2, 3] },
+      "diaper": { "changesPerDay": [4, 6], "stoolsPerDay": { "any": [1, 2] } },
+      "sleep": { "totalHoursPerDay": [11, 14], "daytimeNaps": [1, 1], "wakeWindowMin": [300, 360], "bedtimeLocal": ["19:00", "20:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": [3, 7], "cueToFussMin": [5, 20], "fussToCryMin": [5, 15], "cryToHardCryMin": [3, 10], "handoffAfterCryingMin": [10, 30], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 1] },
+      "attention": { "needEpisodesPerDay": [18, 25], "alertGroupsPerDay": [15, 20], "overnightWakeGroupsPerNight": [0, 1] }
+    },
+    {
+      "id": "y3",
+      "ageDays": 1096,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [2, 2] },
+      "diaper": { "changesPerDay": null, "stoolsPerDay": { "any": [1, 2] } },
+      "sleep": { "totalHoursPerDay": [10, 13], "daytimeNaps": [0, 1], "wakeWindowMin": null, "bedtimeLocal": ["19:00", "20:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": [1, 4], "cueToFussMin": [5, 20], "fussToCryMin": [5, 15], "cryToHardCryMin": [3, 10], "handoffAfterCryingMin": [10, 30], "repeatRequestMin": null },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 1] },
+      "attention": { "needEpisodesPerDay": [14, 20], "alertGroupsPerDay": [12, 16], "overnightWakeGroupsPerNight": [0, 1] }
+    },
+    {
+      "id": "y4",
+      "ageDays": 1461,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [2, 2] },
+      "diaper": { "changesPerDay": null, "stoolsPerDay": null },
+      "sleep": { "totalHoursPerDay": [10, 13], "daytimeNaps": [0, 0], "wakeWindowMin": null, "bedtimeLocal": ["19:00", "20:30"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": [0, 2], "cueToFussMin": null, "fussToCryMin": null, "cryToHardCryMin": null, "handoffAfterCryingMin": null, "repeatRequestMin": [10, 30] },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 1] },
+      "attention": { "needEpisodesPerDay": [12, 18], "alertGroupsPerDay": [10, 15], "overnightWakeGroupsPerNight": [0, 1] }
+    },
+    {
+      "id": "y5",
+      "ageDays": 1826,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [1, 2] },
+      "diaper": { "changesPerDay": null, "stoolsPerDay": null },
+      "sleep": { "totalHoursPerDay": [10, 13], "daytimeNaps": [0, 0], "wakeWindowMin": null, "bedtimeLocal": ["19:00", "20:30"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": [0, 2], "cueToFussMin": null, "fussToCryMin": null, "cryToHardCryMin": null, "handoffAfterCryingMin": null, "repeatRequestMin": [10, 30] },
+      "hygiene": { "bathsPerWeek": [2, 3], "nailCarePerWeek": [1, 1] },
+      "attention": { "needEpisodesPerDay": [11, 16], "alertGroupsPerDay": [9, 13], "overnightWakeGroupsPerNight": [0, 0] }
+    },
+    {
+      "id": "y6",
+      "ageDays": 2192,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [1, 2] },
+      "diaper": { "changesPerDay": null, "stoolsPerDay": null },
+      "sleep": { "totalHoursPerDay": [9, 12], "daytimeNaps": [0, 0], "wakeWindowMin": null, "bedtimeLocal": ["19:30", "20:30"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": null, "cueToFussMin": null, "fussToCryMin": null, "cryToHardCryMin": null, "handoffAfterCryingMin": null, "repeatRequestMin": [10, 30] },
+      "hygiene": { "bathsPerWeek": [1, 2], "nailCarePerWeek": null },
+      "attention": { "needEpisodesPerDay": [10, 14], "alertGroupsPerDay": [8, 12], "overnightWakeGroupsPerNight": [0, 0] }
+    },
+    {
+      "id": "y8",
+      "ageDays": 2922,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [1, 2] },
+      "diaper": { "changesPerDay": null, "stoolsPerDay": null },
+      "sleep": { "totalHoursPerDay": [9, 12], "daytimeNaps": [0, 0], "wakeWindowMin": null, "bedtimeLocal": ["20:00", "21:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": null, "cueToFussMin": null, "fussToCryMin": null, "cryToHardCryMin": null, "handoffAfterCryingMin": null, "repeatRequestMin": [10, 30] },
+      "hygiene": { "bathsPerWeek": [1, 2], "nailCarePerWeek": null },
+      "attention": { "needEpisodesPerDay": [9, 13], "alertGroupsPerDay": [7, 11], "overnightWakeGroupsPerNight": [0, 0] }
+    },
+    {
+      "id": "y9",
+      "ageDays": 3287,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [1, 2] },
+      "diaper": { "changesPerDay": null, "stoolsPerDay": null },
+      "sleep": { "totalHoursPerDay": [9, 12], "daytimeNaps": [0, 0], "wakeWindowMin": null, "bedtimeLocal": ["20:00", "21:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": null, "cueToFussMin": null, "fussToCryMin": null, "cryToHardCryMin": null, "handoffAfterCryingMin": null, "repeatRequestMin": [10, 30] },
+      "hygiene": { "bathsPerWeek": [1, 2], "nailCarePerWeek": null },
+      "attention": { "needEpisodesPerDay": [8, 12], "alertGroupsPerDay": [6, 10], "overnightWakeGroupsPerNight": [0, 0] }
+    },
+    {
+      "id": "y12",
+      "ageDays": 4383,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [1, 3] },
+      "diaper": { "changesPerDay": null, "stoolsPerDay": null },
+      "sleep": { "totalHoursPerDay": [9, 12], "daytimeNaps": [0, 0], "wakeWindowMin": null, "bedtimeLocal": ["21:00", "22:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": null, "cueToFussMin": null, "fussToCryMin": null, "cryToHardCryMin": null, "handoffAfterCryingMin": null, "repeatRequestMin": [15, 60] },
+      "hygiene": { "bathsPerWeek": [5, 7], "nailCarePerWeek": null },
+      "attention": { "needEpisodesPerDay": [6, 10], "alertGroupsPerDay": [5, 8], "overnightWakeGroupsPerNight": [0, 0] }
+    },
+    {
+      "id": "y15",
+      "ageDays": 5479,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [1, 3] },
+      "diaper": { "changesPerDay": null, "stoolsPerDay": null },
+      "sleep": { "totalHoursPerDay": [8, 10], "daytimeNaps": [0, 0], "wakeWindowMin": null, "bedtimeLocal": ["21:30", "23:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": null, "cueToFussMin": null, "fussToCryMin": null, "cryToHardCryMin": null, "handoffAfterCryingMin": null, "repeatRequestMin": [15, 60] },
+      "hygiene": { "bathsPerWeek": [5, 7], "nailCarePerWeek": null },
+      "attention": { "needEpisodesPerDay": [5, 9], "alertGroupsPerDay": [4, 7], "overnightWakeGroupsPerNight": [0, 0] }
+    },
+    {
+      "id": "y18",
+      "ageDays": 6575,
+      "feeding": { "milkFeedsPerDay": null, "quietToActiveIntervalRatio": null, "quietPhaseMilkStartsPerDay": [0, 0], "solidMealsPerDay": [3, 3], "snacksPerDay": [1, 3] },
+      "diaper": { "changesPerDay": null, "stoolsPerDay": null },
+      "sleep": { "totalHoursPerDay": [8, 10], "daytimeNaps": [0, 0], "wakeWindowMin": null, "bedtimeLocal": ["21:30", "23:00"], "circadianStrength": 1 },
+      "distress": { "fussCryMinutesPerDay": null, "tantrumsPerWeek": null, "cueToFussMin": null, "fussToCryMin": null, "cryToHardCryMin": null, "handoffAfterCryingMin": null, "repeatRequestMin": [15, 60] },
+      "hygiene": { "bathsPerWeek": [5, 7], "nailCarePerWeek": null },
+      "attention": { "needEpisodesPerDay": [5, 9], "alertGroupsPerDay": [4, 7], "overnightWakeGroupsPerNight": [0, 0] }
+    }
+  ]
+}

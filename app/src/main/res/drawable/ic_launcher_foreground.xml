@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A sleeping, swaddled baby, drawn inside the adaptive-icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FF8FB7D9"
+        android:pathData="M30,64 C30,50 40,42 54,42 C68,42 78,50 78,64 L78,74 C78,80 72,84 54,84 C36,84 30,80 30,74 Z" />
+    <path
+        android:fillColor="#FFF2C7A5"
+        android:pathData="M54,28 C66,28 74,36 74,48 C74,60 66,68 54,68 C42,68 34,60 34,48 C34,36 42,28 54,28 Z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FF5B3A2E"
+        android:strokeWidth="2.4"
+        android:strokeLineCap="round"
+        android:pathData="M44,48 Q47.5,51 51,48 M57,48 Q60.5,51 64,48" />
+    <path
+        android:fillColor="#FFE89A86"
+        android:pathData="M42,55 C44,53 48,53 48,55 C48,57 44,58 42,55 Z M60,55 C60,53 64,53 66,55 C64,58 60,57 60,55 Z" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FF5B3A2E"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M51,58 Q54,60 57,58" />
+    <path
+        android:fillColor="#FF8FB7D9"
+        android:pathData="M37,40 C41,30 48,26 54,26 C61,26 68,30 71,40 C64,35 59,33 54,33 C49,33 44,35 37,40 Z" />
+</vector>

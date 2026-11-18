@@ -1,0 +1,921 @@
+{
+  "source": "docs/09-education-curriculum.md",
+  "status": "Draft v0.2 · 2026-11-17",
+  "review": "Draft content. Not yet reviewed by a pediatric professional (docs/09 §5). Not medical advice.",
+  "modules": [
+    {
+      "number": 0,
+      "title": "Before Baby",
+      "unlocks": "Day 0"
+    },
+    {
+      "number": 1,
+      "title": "Feeding",
+      "unlocks": "S0"
+    },
+    {
+      "number": 2,
+      "title": "Diapers, Hygiene & Potty",
+      "unlocks": "S0"
+    },
+    {
+      "number": 3,
+      "title": "Sleep",
+      "unlocks": "S0"
+    },
+    {
+      "number": 4,
+      "title": "Crying & Soothing",
+      "unlocks": "S0"
+    },
+    {
+      "number": 5,
+      "title": "Health",
+      "unlocks": "S0"
+    },
+    {
+      "number": 6,
+      "title": "Safety",
+      "unlocks": "S0 (grows by stage)"
+    },
+    {
+      "number": 7,
+      "title": "Development & Play",
+      "unlocks": "S1"
+    },
+    {
+      "number": 8,
+      "title": "Behavior & Emotions",
+      "unlocks": "S4"
+    },
+    {
+      "number": 9,
+      "title": "You, Your Partner & Your Life",
+      "unlocks": "S0"
+    },
+    {
+      "number": 10,
+      "title": "Multiple Children",
+      "unlocks": "Twins / siblings"
+    },
+    {
+      "number": 11,
+      "title": "School Age",
+      "unlocks": "S9"
+    },
+    {
+      "number": 12,
+      "title": "Teens (later phase)",
+      "unlocks": "S11"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "L-PREP-01",
+      "title": "A day and night with a newborn",
+      "body": "Frequent feeds, diapers and fragmented rest can occur around the clock. Ask the player to try a shift plan and identify who can help between feeds.",
+      "sources": [
+        {
+          "title": "CDC newborn feeding basics",
+          "url": "https://www.cdc.gov/infant-toddler-nutrition/breastfeeding/newborn-basics.html"
+        }
+      ],
+      "module": 0
+    },
+    {
+      "id": "L-PREP-02",
+      "title": "Supplies and budget",
+      "body": "Plan for a safe infant sleep space, feeding and diaper supplies, clothing and age-appropriate transport. Compare two illustrative shopping plans.",
+      "sources": [],
+      "module": 0
+    },
+    {
+      "id": "L-PREP-03",
+      "title": "Choosing a pediatrician and childcare",
+      "body": "Discuss how to arrange newborn follow-up and childcare. Use regional schedules and the family's clinician for timing.",
+      "sources": [],
+      "module": 0
+    },
+    {
+      "id": "L-PREP-04",
+      "title": "Planning support & leave",
+      "body": "Who does nights? Who cooks? Who covers sick days? Line up your \"village\" and write a simple plan.",
+      "sources": [],
+      "module": 0
+    },
+    {
+      "id": "L-FEED-01",
+      "title": "Hunger and fullness cues",
+      "body": "Look for rooting or hands to mouth and check the context. Crying can come later. Turning away or closing the mouth can signal fullness. Practice responding to what the baby shows.",
+      "sources": [
+        {
+          "title": "CDC cues for hunger and fullness",
+          "url": "https://www.cdc.gov/infant-toddler-nutrition/mealtime/signs-your-child-is-hungry-or-full.html"
+        }
+      ],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-02",
+      "title": "Breast/chestfeeding basics",
+      "body": "Practice a supported position, noticing latch and swallowing, and asking for skilled help if there is persistent pain or difficulty feeding. Discuss how frequency can vary and how to reach feeding support.",
+      "sources": [
+        {
+          "title": "CDC newborn breastfeeding basics",
+          "url": "https://www.cdc.gov/infant-toddler-nutrition/breastfeeding/newborn-basics.html"
+        }
+      ],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-03",
+      "title": "Formula preparation and storage",
+      "body": "Follow the product's instructions and use safe water and accurate measurements for the fictional powdered formula. Measure water first. Teach how to check preparation and storage guidance by age and risk, use clean equipment and discard leftovers. Use the appropriate regional source for temperature and handling.",
+      "sources": [
+        {
+          "title": "CDC formula preparation and storage",
+          "url": "https://www.cdc.gov/infant-toddler-nutrition/formula-feeding/preparation-and-storage.html"
+        }
+      ],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-04",
+      "title": "Responsive bottle feeding",
+      "body": "Hold the baby close and support them. Let the baby pause and end the feed at fullness. Keep the bottle in the caregiver's hand.",
+      "sources": [
+        {
+          "title": "CDC bottle-feeding guidance",
+          "url": "https://www.cdc.gov/infant-toddler-nutrition/bottle-feeding/index.html"
+        }
+      ],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-05",
+      "title": "Burping and spit-up",
+      "body": "Practice pausing when the baby shows discomfort. A burp may help. Use reviewed examples to discuss when spit-up or vomiting calls for medical advice.",
+      "sources": [
+        {
+          "title": "AAP guidance on burping and spit-up",
+          "url": "https://www.healthychildren.org/English/ages-stages/baby/feeding-nutrition/Pages/Baby-Burping-Hiccups-and-Spit-Up.aspx"
+        }
+      ],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-06",
+      "title": "Pumping and storage",
+      "body": "Later practice covers cleaning equipment, labeling milk, and finding the right storage guidance for freshly expressed or thawed milk.",
+      "sources": [
+        {
+          "title": "CDC breast milk storage guidance",
+          "url": "https://www.cdc.gov/breastfeeding/breast-milk-preparation-and-storage/handling-breastmilk.html"
+        }
+      ],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-07",
+      "title": "Is my baby getting enough?",
+      "body": "Discuss feeding patterns, wet diapers and growth with the child's clinician. A practice scene can show what to report if a baby is feeding poorly or has fewer wet diapers.",
+      "sources": [
+        {
+          "title": "CDC newborn breastfeeding basics",
+          "url": "https://www.cdc.gov/infant-toddler-nutrition/breastfeeding/newborn-basics.html"
+        }
+      ],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-08",
+      "title": "Starting solids and allergens",
+      "body": "Introduce solids around six months when readiness signs appear. Later practice covers textures, feeding safely, and asking about an individual plan when there are allergy concerns.",
+      "sources": [
+        {
+          "title": "CDC guidance on introducing solids",
+          "url": "https://www.cdc.gov/infant-toddler-nutrition/foods-and-drinks/when-to-introduce-solid-foods.html"
+        }
+      ],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-09",
+      "title": "Safe food and choking awareness",
+      "body": "Adult supervision, a suitable position and safe preparation are part of the practice. Use the age-specific reviewed first-aid content to teach when choking needs immediate help.",
+      "sources": [],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-10",
+      "title": "Family meals",
+      "body": "Practice making a meal or snack available and respecting a child's cues and appetite. Let the family try foods again without pressure.",
+      "sources": [],
+      "module": 1
+    },
+    {
+      "id": "L-FEED-11",
+      "title": "Drinks by age",
+      "body": "Use reviewed feeding and drink guidance for the child's age. Discuss the transition from infant milk feeds to family meals and drinks.",
+      "sources": [
+        {
+          "title": "CDC foods and drinks for infants and toddlers",
+          "url": "https://www.cdc.gov/infant-toddler-nutrition/foods-and-drinks/index.html"
+        }
+      ],
+      "module": 1
+    },
+    {
+      "id": "L-HYG-01",
+      "title": "Diapering and cord care",
+      "body": "Gather supplies first and use a safe changing space. Clean front to back, set used supplies aside, clean the surface and wash hands. Use reviewed guidance for a cord-care scene.",
+      "sources": [
+        {
+          "title": "CDC diaper changing at home",
+          "url": "https://www.cdc.gov/hygiene/about/healthy-habits-diaper-changing-steps-at-home.html"
+        }
+      ],
+      "module": 2
+    },
+    {
+      "id": "L-HYG-02",
+      "title": "Diaper rash",
+      "body": "Change often; clean gently; pat dry; air time; zinc-oxide barrier cream. See a clinician if there are blisters or pus, no improvement in 2–3 days (possible yeast), or a fever.",
+      "sources": [],
+      "module": 2
+    },
+    {
+      "id": "L-HYG-03",
+      "title": "Bath safety",
+      "body": "Gather supplies within reach and keep direct, continuous supervision. If you need to leave, take the child with you. Use reviewed regional material for equipment and water temperature.",
+      "sources": [],
+      "module": 2
+    },
+    {
+      "id": "L-HYG-04",
+      "title": "Skin, nails & sun",
+      "body": "File or trim nails while the baby sleeps. Cradle cap: gentle wash and a soft brush. Baby acne and newborn rashes are usually harmless. Eczema: daily fragrance-free moisturizer, short lukewarm baths. **Under 6 months: shade and clothing**; from 6 months, sunscreen SPF 30+, hats and shade.",
+      "sources": [],
+      "module": 2
+    },
+    {
+      "id": "L-HYG-05",
+      "title": "Teeth",
+      "body": "Wipe the gums; from the first tooth, brush twice a day with a **rice-grain smear** of fluoride toothpaste (a **pea-sized** amount from age 3). Dentist by the first birthday. No bottle in bed. Help with brushing until about 7–8 years.",
+      "sources": [],
+      "module": 2
+    },
+    {
+      "id": "L-HYG-06",
+      "title": "Potty training",
+      "body": "Readiness (usually between 18 months and 3 years): stays dry ~2 h, notices wet or dirty, shows interest, can pull pants down, follows simple directions. Keep it positive and consistent; schedule potty sits; praise effort; **accidents are normal, never punish**. Watch for withholding and constipation. Night dryness comes later; bedwetting is common to age 5–7.",
+      "sources": [],
+      "module": 2
+    },
+    {
+      "id": "L-SLEEP-01",
+      "title": "Safe infant sleep",
+      "body": "Place the baby on their back for every sleep in a separate, clear sleep space made for infants. Use a firm, flat and level surface with a fitted sheet. Transfer a baby who falls asleep in a sitting device to an appropriate sleep space as soon as possible. Stop swaddling when the baby shows signs of trying to roll.",
+      "sources": [
+        {
+          "title": "NIH safe sleep guidance",
+          "url": "https://safetosleep.nichd.nih.gov/reduce-risk/reduce"
+        },
+        {
+          "title": "AAP guidance on swaddling",
+          "url": "https://www.healthychildren.org/English/ages-stages/baby/diapers-clothing/Pages/Swaddling-Is-it-Safe.aspx"
+        }
+      ],
+      "module": 3
+    },
+    {
+      "id": "L-SLEEP-02",
+      "title": "Newborn sleep across a day",
+      "body": "Newborns can sleep and wake throughout the day and night. Practice what you would do when the child shows feeding cues, and how help can fit into a night.",
+      "sources": [],
+      "module": 3
+    },
+    {
+      "id": "L-SLEEP-03",
+      "title": "Tired cues & wake windows",
+      "body": "Watch for staring off, yawns, eye rubbing and red eyelids. Wake windows grow with age (from under 1 hour for newborns to several hours for toddlers). These are rules of thumb; follow your child. Overtired babies fight sleep harder.",
+      "sources": [],
+      "module": 3
+    },
+    {
+      "id": "L-SLEEP-04",
+      "title": "Bedtime routines",
+      "body": "The same calm 20–30-minute sequence each night (bath or wash, pajamas, feed or teeth, book, song, bed) from about 3–4 months. Typical bedtimes are ~18:30–20:00 for babies and toddlers. Screens off an hour before bed for older children.",
+      "sources": [],
+      "module": 3
+    },
+    {
+      "id": "L-SLEEP-05",
+      "title": "Regressions & disruptions",
+      "body": "Around 4 months, sleep cycles mature (a lasting change). Developmental leaps, teething, illness, travel and DST cause temporary setbacks. Keep the routine steady.",
+      "sources": [],
+      "module": 3
+    },
+    {
+      "id": "L-SLEEP-06",
+      "title": "Later infant sleep routines",
+      "body": "Offer a family discussion about routines with age, health and feeding context. A change that affects feeding or sleep care can be discussed with a clinician.",
+      "sources": [],
+      "module": 3
+    },
+    {
+      "id": "L-SLEEP-07",
+      "title": "Toddler & preschool sleep",
+      "body": "Move from crib to bed when climbing out or at about 89 cm (35 in) tall. Silent returns for \"jack-in-the-box\" toddlers. Bedtime passes and routine charts. Nightmares (comfort them) vs. night terrors (don't wake; keep safe). Nap drops usually happen between 3 and 5 years.",
+      "sources": [],
+      "module": 3
+    },
+    {
+      "id": "L-SLEEP-08",
+      "title": "Caregiver rest",
+      "body": "Plan shifts and ask for help when tired. If a caregiver is likely to doze off while holding a baby, use a safe sleep space and hand off when possible.",
+      "sources": [
+        {
+          "title": "AAP safe sleep guidance",
+          "url": "https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/A-Parents-Guide-to-Safe-Sleep.aspx"
+        }
+      ],
+      "module": 3
+    },
+    {
+      "id": "L-CRY-01",
+      "title": "Why babies cry",
+      "body": "Check plausible causes such as hunger, a wet or dirty diaper, tiredness or a need for connection. Cues can overlap. Try a response and observe what changes.",
+      "sources": [
+        {
+          "title": "AAP guidance on responding to cries",
+          "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Responding-to-Your-Babys-Cries.aspx"
+        }
+      ],
+      "module": 4
+    },
+    {
+      "id": "L-CRY-02",
+      "title": "Ways to soothe",
+      "body": "Try gentle holding or rocking, a quiet voice or a calmer environment. Observe the response and address the underlying need when one is present.",
+      "sources": [],
+      "module": 4
+    },
+    {
+      "id": "L-CRY-03",
+      "title": "Persistent crying",
+      "body": "Some crying can continue after responsive care. Practice sharing the work and using a safe break. Ask a clinician about unusual or concerning crying.",
+      "sources": [
+        {
+          "title": "AAP guidance on calming a fussy baby",
+          "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Calming-a-Fussy-Baby.aspx"
+        }
+      ],
+      "module": 4
+    },
+    {
+      "id": "L-CRY-04",
+      "title": "A safe break",
+      "body": "Never shake a baby. When overwhelmed, place the baby on their back in a clear, safe crib, step away briefly, ask for help and check back. Include the plan in caregiver handoffs.",
+      "sources": [
+        {
+          "title": "AAP caregiver break guidance",
+          "url": "https://www.healthychildren.org/English/ages-stages/baby/crying-colic/Pages/Calming-a-Fussy-Baby.aspx"
+        }
+      ],
+      "module": 4
+    },
+    {
+      "id": "L-CRY-05",
+      "title": "When to get help",
+      "body": "Practice recognizing a change in the baby's usual behavior and deciding when to contact a clinician or emergency services. Use a reviewed scenario for the specific signs.",
+      "sources": [],
+      "module": 4
+    },
+    {
+      "id": "L-HEALTH-01",
+      "title": "Fever in a young infant",
+      "body": "In the draft US example, a three-week-old has a rectal temperature of 38 °C (100.4 °F). Contact the baby's clinician immediately for guidance. Use regional reviewed instructions for other ages and symptoms.",
+      "sources": [
+        {
+          "title": "AAP guidance on fever in young infants",
+          "url": "https://www.healthychildren.org/English/health-issues/conditions/fever/pages/fever-and-your-baby.aspx"
+        }
+      ],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-02",
+      "title": "Urgent signs and emergencies",
+      "body": "Later opt-in practice teaches recognizing signs such as difficulty breathing and seeking the right help. Use reviewed local contact paths and instructions.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-03",
+      "title": "Well visits and vaccines",
+      "body": "Practice asking questions at a checkup. Present schedules and guidance from a dated regional source.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-04",
+      "title": "Colds and respiratory illness",
+      "body": "Practice explaining changes in breathing and feeding, and when the fictional situation calls for help.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-05",
+      "title": "Vomiting, diarrhea and dehydration",
+      "body": "Use reviewed examples to discuss changes in feeding, wet diapers and alertness and when to seek care.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-06",
+      "title": "Medicine safety",
+      "body": "Practice checking a fictional clinician's care plan and logging an action for the correct child. The game handles care records.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-07",
+      "title": "Teething",
+      "body": "Use a reviewed scene to discuss comfort and when another explanation for symptoms needs attention.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-08",
+      "title": "Newborn health observations",
+      "body": "Practice describing changes in feeding, color, breathing or alertness to a clinician using reviewed examples.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-09",
+      "title": "Ear discomfort",
+      "body": "Practice describing what changed and seeking advice. Use the fictional clinician's instructions in the scenario.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-10",
+      "title": "Allergies and urgent symptoms",
+      "body": "Later region-reviewed practice covers recognizing a possible severe reaction and accessing emergency help.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-11",
+      "title": "Growth and developmental checks",
+      "body": "Discuss what a checkup can cover and how to raise a concern.",
+      "sources": [
+        {
+          "title": "CDC developmental monitoring and screening",
+          "url": "https://www.cdc.gov/act-early/about/developmental-monitoring-and-screening.html"
+        }
+      ],
+      "module": 5
+    },
+    {
+      "id": "L-HEALTH-12",
+      "title": "Falls and head injuries",
+      "body": "Use an opt-in reviewed example to teach what happened, which changes to report and when to seek help.",
+      "sources": [],
+      "module": 5
+    },
+    {
+      "id": "L-SAFE-01",
+      "title": "Car seats by age",
+      "body": "**Rear-facing as long as possible**, until the seat's maximum height or weight. A snug harness (pinch test), chest clip at armpit level, **no bulky coats**. Forward-facing with a harness until its limits; then a booster until the seat belt fits (~145 cm / 4'9\", often 8–12 years); back seat until 13. Get the installation checked. Never leave a child alone in a car.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-02",
+      "title": "Childproofing by stage",
+      "body": "Before rolling: changing-table and bed safety. Before crawling: outlets, cords, small objects, gates, **anchored furniture and TVs**, cabinet locks, blind cords. Toddlers: pools, medicines, stove knobs, toilets, windows. Recheck whenever new skills appear. Anything small enough to fit through a toilet-paper tube is a choking hazard.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-03",
+      "title": "Water safety",
+      "body": "Drowning is fast and **silent**. Touch supervision in the bath; empty tubs and buckets; toilet locks; a 4-sided pool fence with a self-latching gate; swim lessons from ~1 year (they don't make a child \"drown-proof\"); life jackets; a designated \"water watcher\" at gatherings.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-04",
+      "title": "Choking and CPR awareness",
+      "body": "Teach how to recognize a serious problem and get help. Use age-specific reviewed first-aid material and direct players to qualified training.",
+      "sources": [
+        {
+          "title": "AHA pediatric basic life support",
+          "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-basic-life-support"
+        }
+      ],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-05",
+      "title": "Falls & tip-overs",
+      "body": "Never leave a baby on a raised surface. Use straps (high chair, stroller, changing table). Gates at the top and bottom of stairs. Window stops (opening ≤ 10 cm / 4 in); screens don't stop falls. Anchor furniture and TVs. **No baby walkers.** Soft surfaces under play equipment.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-06",
+      "title": "Poison prevention",
+      "body": "Lock up medicines, cleaners, detergent pods, alcohol, nicotine/vape liquids and cannabis edibles; keep them in original containers; watch visitors' bags. **Poison control (US: 1-800-222-1222)**; don't induce vomiting.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-07",
+      "title": "Burns & scalds",
+      "body": "Never hold a hot drink while holding a child. Keep hot liquids away from table edges; cook on back burners with handles turned in. Water heater ≤ 49 °C (120 °F). For burns: cool running water for 20 minutes; no ice or butter; get care for serious burns.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-08",
+      "title": "Button batteries & magnets",
+      "body": "Swallowed button batteries can cause severe burns within hours: **go to the ER immediately** and call poison control on the way. Secure battery compartments; keep high-powered magnets away from children.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-09",
+      "title": "Hot cars & heat",
+      "body": "Cars heat up quickly even on mild days. **Never leave a child alone in a car.** \"Look before you lock\": keep something you need in the back seat. Keep the car locked so kids can't climb in.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-10",
+      "title": "Baby gear, babywearing & recalls",
+      "body": "Carrier **T.I.C.K.S.**: Tight, In view at all times, Close enough to kiss, Keep chin off chest, Supported back. Check product recalls (e.g., the CPSC in the US). Secondhand cribs must meet current standards. Avoid inclined sleepers and weighted sleep products.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-11",
+      "title": "Firearm storage",
+      "body": "If there are guns in a home: unloaded, locked, with ammunition locked separately. **Ask** about firearms before playdates and sleepovers.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-SAFE-12",
+      "title": "Body & online safety (age-graded)",
+      "body": "Correct names for body parts; \"your body belongs to you\"; no secrets about touching; a list of safe adults; what to do if lost. Older children: privacy settings, no sharing photos or location with strangers, tell a trusted adult about anything uncomfortable online.",
+      "sources": [],
+      "module": 6
+    },
+    {
+      "id": "L-DEV-01",
+      "title": "Serve & return",
+      "body": "Notice the child's \"serve\" (a look, a coo, a point), return it (respond), name it, take turns and wait, and practice endings and beginnings. These everyday exchanges build brain architecture (Harvard Center on the Developing Child).",
+      "sources": [],
+      "module": 7
+    },
+    {
+      "id": "L-DEV-02",
+      "title": "Tummy time",
+      "body": "From the first days, awake and supervised. Start with a few minutes several times a day, building to ~15–30 min/day by ~7 weeks and ≥ 30 min/day spread out by ~3 months. On your chest counts. It builds strength and helps prevent flat spots.",
+      "sources": [],
+      "module": 7
+    },
+    {
+      "id": "L-DEV-03",
+      "title": "Talking, reading & singing",
+      "body": "Read every day from birth. Narrate your day; respond to babbles; expand words (\"car\" → \"big red car\"). Limit background TV.",
+      "sources": [],
+      "module": 7
+    },
+    {
+      "id": "L-DEV-04",
+      "title": "Milestones & acting early",
+      "body": "Milestones describe what most children (≈ 75%) do by a certain age, and the ranges are wide. Comparing with other children isn't useful. If you're concerned, talk to your clinician **early**; early support helps.",
+      "sources": [],
+      "module": 7
+    },
+    {
+      "id": "L-DEV-05",
+      "title": "Play by age",
+      "body": "Newborns: faces and high contrast. 3–6 months: reaching and mouthing safe toys. 6–12 months: cause and effect, peek-a-boo. Toddlers: building, pretending, outdoor play. Preschoolers: imaginative and social play. Unstructured free play matters at every age.",
+      "sources": [],
+      "module": 7
+    },
+    {
+      "id": "L-DEV-06",
+      "title": "Screens by age",
+      "body": "Under 18 months: avoid, except video chat. 18–24 months: a little, high quality, watched together. 2–5 years: ≤ 1 h/day of high-quality content, watched together. Older children: a family media plan, consistent limits, no screens in the hour before bed, devices out of bedrooms at night. You're the role model.",
+      "sources": [],
+      "module": 7
+    },
+    {
+      "id": "L-DEV-07",
+      "title": "Temperament: every child is different",
+      "body": "Activity, regularity, intensity, adaptability, sensitivity and more vary from birth. They are not caused by parenting. Aim for \"goodness of fit\": adapt your approach to the child you have.",
+      "sources": [],
+      "module": 7
+    },
+    {
+      "id": "L-DEV-08",
+      "title": "Attachment & responsive care",
+      "body": "You can't spoil a young baby by responding. Secure attachment grows from **consistent, responsive care most of the time**, not perfection. Repair after rough moments matters.",
+      "sources": [],
+      "module": 7
+    },
+    {
+      "id": "L-BEH-01",
+      "title": "Tantrums",
+      "body": "Normal from about 1 to 4 years (peaking at 2–3). Prevent: routines, warnings before transitions, choices, food and sleep on time. During: keep them safe, stay calm, use few words, **don't give in to the demand**. After: reconnect, name the feeling, teach. See a clinician for very frequent or long tantrums, self-injury, or frequent tantrums after age 5.",
+      "sources": [],
+      "module": 8
+    },
+    {
+      "id": "L-BEH-02",
+      "title": "Positive discipline",
+      "body": "Discipline means teaching. Clear, consistent limits; specific praise; logical consequences; time-outs (about 1 minute per year of age, from ~2–3) or time-ins. **The AAP advises against spanking and harsh verbal punishment**: they are harmful and ineffective. Model the behavior you want; repair after conflict.",
+      "sources": [],
+      "module": 8
+    },
+    {
+      "id": "L-BEH-03",
+      "title": "Emotion coaching",
+      "body": "Notice emotions, treat them as a chance to connect, listen, validate, **label the feeling**, set limits on behavior, and solve problems together.",
+      "sources": [],
+      "module": 8
+    },
+    {
+      "id": "L-BEH-04",
+      "title": "Separation & stranger anxiety",
+      "body": "Normal from about 6–8 months, peaking around 10–18 months. Short, confident goodbyes with a ritual; never sneak out; practice short separations; comfort objects; let the child warm up to new people at their own pace.",
+      "sources": [],
+      "module": 8
+    },
+    {
+      "id": "L-BEH-05",
+      "title": "Siblings & fairness",
+      "body": "Prepare the older child; give each child one-on-one time; avoid comparisons; don't force sharing of special items; coach problem-solving; intervene for safety; fair ≠ equal.",
+      "sources": [],
+      "module": 8
+    },
+    {
+      "id": "L-BEH-06",
+      "title": "Picky eating",
+      "body": "Fear of new foods peaks in the toddler and preschool years. Repeated, pressure-free exposure; include one \"safe\" food on the plate; family meals; no bribes or battles.",
+      "sources": [],
+      "module": 8
+    },
+    {
+      "id": "L-BEH-07",
+      "title": "Biting, hitting, whining & lying",
+      "body": "Age-appropriate expectations; calm, firm responses; care for the hurt child first; teach the replacement behavior; consistent consequences. Never hit or bite back.",
+      "sources": [],
+      "module": 8
+    },
+    {
+      "id": "L-BEH-08",
+      "title": "Independence & chores",
+      "body": "Let children try (dressing, pouring, tidying). Age-appropriate chores build competence and belonging. Allowances can teach money skills.",
+      "sources": [],
+      "module": 8
+    },
+    {
+      "id": "L-BEH-09",
+      "title": "Fears, nightmares & worries",
+      "body": "Validate; don't mock; gradual exposure; comfort objects and nightlights. Nightmares: comfort them. Night terrors: don't wake the child; keep them safe. Grief: honest, simple words (\"died\"). Seek help for anxiety that disrupts daily life.",
+      "sources": [],
+      "module": 8
+    },
+    {
+      "id": "L-PAR-01",
+      "title": "Postpartum mental health",
+      "body": "A later, reviewed lesson covers changes in mood, anxiety and available support for caregivers. Practice reaching a qualified professional. Review the urgent-help wording and contact paths for each published region.",
+      "sources": [],
+      "module": 9
+    },
+    {
+      "id": "L-PAR-02",
+      "title": "Caregiver rest and support",
+      "body": "Review when virtual care sessions happened and how much work a helper could cover. Practice asking for help before exhaustion.",
+      "sources": [],
+      "module": 9
+    },
+    {
+      "id": "L-PAR-03",
+      "title": "Sharing the load",
+      "body": "Visible tasks **and** the invisible \"mental load\" (remembering, planning, noticing). Write a division plan; use on-duty shifts; hold a weekly check-in. Equal doesn't have to mean identical.",
+      "sources": [],
+      "module": 9
+    },
+    {
+      "id": "L-PAR-04",
+      "title": "Asking for help",
+      "body": "Make specific requests (\"Could you bring dinner on Tuesday?\"). Build your village: family, friends, community, paid help. Asking is a strength.",
+      "sources": [],
+      "module": 9
+    },
+    {
+      "id": "L-PAR-05",
+      "title": "Your relationship after baby",
+      "body": "Conflict commonly rises after a baby. Communicate, keep small rituals of connection, and be patient with intimacy (physical recovery, contraception, energy).",
+      "sources": [],
+      "module": 9
+    },
+    {
+      "id": "L-PAR-06",
+      "title": "Work & childcare",
+      "body": "Options: center, home daycare, nanny, family. Compare cost, hours, waitlists and sick-child policies. Know your workplace rights (e.g., pumping at work; these vary by region). **Have a sick-day backup plan.**",
+      "sources": [],
+      "module": 9
+    },
+    {
+      "id": "L-PAR-07",
+      "title": "The cost of raising a child",
+      "body": "Recurring costs (diapers: commonly ~2,500–3,000 in the first year; formula; food; clothes in new sizes) and big costs (**childcare is often the largest**). Figures vary widely by region; the in-game budget is illustrative.",
+      "sources": [],
+      "module": 9
+    },
+    {
+      "id": "L-PAR-08",
+      "title": "Good-enough parenting & repair",
+      "body": "You will make mistakes. What matters is the overall pattern and **repair**. Self-compassion is not self-indulgence.",
+      "sources": [],
+      "module": 9
+    },
+    {
+      "id": "L-PAR-09",
+      "title": "Unsolicited advice & myths",
+      "body": "Common myths: rice cereal in the bottle helps sleep; you'll spoil a baby by holding them; babies need water in hot weather (under 6 months); a little alcohol helps teething; walkers help walking; teething causes high fever. Kind, firm boundaries with relatives.",
+      "sources": [],
+      "module": 9
+    },
+    {
+      "id": "L-MULTI-01",
+      "title": "Coordinating infant care",
+      "body": "Follow each child's feeding cues and reviewed plan. Use separate safe sleep spaces and per-child logs. Practice assigning shifts and holding one baby at a time for a bottle feed.",
+      "sources": [],
+      "module": 10
+    },
+    {
+      "id": "L-MULTI-02",
+      "title": "Preparing an older sibling",
+      "body": "Tell them in age-appropriate terms; read books together; avoid big changes right before the birth; expect regression; protect one-on-one time; give a \"helper\" role; **never leave a young child alone with the baby**.",
+      "sources": [],
+      "module": 10
+    },
+    {
+      "id": "L-SCH-01",
+      "title": "School routines & homework",
+      "body": "Prepare the night before; a consistent homework time and place; support without doing it for them; communicate with teachers.",
+      "sources": [],
+      "module": 11
+    },
+    {
+      "id": "L-SCH-02",
+      "title": "Friendships & bullying",
+      "body": "Listen and validate; coach skills; know the signs of being bullied (or bullying); document and involve the school.",
+      "sources": [],
+      "module": 11
+    },
+    {
+      "id": "L-SCH-03",
+      "title": "Puberty conversations",
+      "body": "Start early and keep talking: body changes, periods, hygiene, feelings; use correct words; questions are welcome.",
+      "sources": [],
+      "module": 11
+    },
+    {
+      "id": "L-SCH-04",
+      "title": "Phones, games & social media",
+      "body": "A written family agreement, parental controls, phones out of bedrooms at night, age limits (13+ on most platforms), co-play, and online-safety rules.",
+      "sources": [],
+      "module": 11
+    },
+    {
+      "id": "L-SCH-05",
+      "title": "Independence milestones",
+      "body": "Staying home alone, walking to school, money and errands: readiness checks, practice runs, clear rules (laws vary by place).",
+      "sources": [],
+      "module": 11
+    },
+    {
+      "id": "L-SCH-06",
+      "title": "Learning & attention concerns",
+      "body": "Reading struggles or attention difficulties: talk to the teacher and clinician early; evaluations and support help.",
+      "sources": [],
+      "module": 11
+    },
+    {
+      "id": "L-TEEN-01",
+      "title": "Growing independence",
+      "body": "Talk through responsibilities, transportation and check-in plans.",
+      "sources": [],
+      "module": 12
+    },
+    {
+      "id": "L-TEEN-02",
+      "title": "Relationships and consent",
+      "body": "Use dialogue practice reviewed by a qualified adolescent educator.",
+      "sources": [],
+      "module": 12
+    },
+    {
+      "id": "L-TEEN-03",
+      "title": "Mental health",
+      "body": "Listen, discuss sources of support and use reviewed regional resources.",
+      "sources": [],
+      "module": 12
+    },
+    {
+      "id": "L-TEEN-04",
+      "title": "Sleep and school",
+      "body": "Compare weekday schedules and discuss how to make room for rest.",
+      "sources": [],
+      "module": 12
+    },
+    {
+      "id": "L-TEEN-05",
+      "title": "Online boundaries and privacy",
+      "body": "Practice talking about online habits and safety as a household.",
+      "sources": [],
+      "module": 12
+    },
+    {
+      "id": "L-TEEN-06",
+      "title": "Education and the next step",
+      "body": "Listen to plans for study, work and a growing role in decisions.",
+      "sources": [],
+      "module": 12
+    }
+  ],
+  "firstTrial": [
+    {
+      "moment": "Before the trial",
+      "skill": "L-PREP-01 plan sleep-window coverage",
+      "feedback": "Pick which care a helper will cover",
+      "lessons": [
+        "L-PREP-01"
+      ]
+    },
+    {
+      "moment": "First milk cue",
+      "skill": "L-FEED-01 with L-FEED-02 or L-FEED-03/04 by route",
+      "feedback": "Identify a cue and stop at fullness",
+      "lessons": [
+        "L-FEED-01",
+        "L-FEED-02",
+        "L-FEED-03"
+      ]
+    },
+    {
+      "moment": "First diaper",
+      "skill": "L-HYG-01 use a safe changing space",
+      "feedback": "Complete setup, change and cleanup",
+      "lessons": [
+        "L-HYG-01"
+      ]
+    },
+    {
+      "moment": "First settle",
+      "skill": "L-SLEEP-01 check the sleep space",
+      "feedback": "Clear hazards and place on the back",
+      "lessons": [
+        "L-SLEEP-01"
+      ]
+    },
+    {
+      "moment": "Crying continues",
+      "skill": "L-CRY-01 and L-CRY-04 check plausible needs and use the break controls",
+      "feedback": "Explain why two explanations can both fit",
+      "lessons": [
+        "L-CRY-01",
+        "L-CRY-04"
+      ]
+    },
+    {
+      "moment": "End of trial",
+      "skill": "L-PAR-02 reflect on time and sharing care",
+      "feedback": "Name one change to the overnight plan",
+      "lessons": [
+        "L-PAR-02"
+      ]
+    }
+  ],
+  "talkAboutIt": [
+    "Who would do the night feeds, and how would we split them?",
+    "What would we do on a day the baby is sick and we both have work?",
+    "Who are the three people we could call for help at 2 AM?",
+    "How do we each react to long crying? What's our coping plan?",
+    "What were the hardest moments this weekend? What surprised us?",
+    "How would childcare fit our budget and schedules?",
+    "What does \"fair\" look like for us: equal hours, or different strengths?"
+  ]
+}
