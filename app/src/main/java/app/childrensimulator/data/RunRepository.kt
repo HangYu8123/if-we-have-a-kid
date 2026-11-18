@@ -86,6 +86,7 @@ class RunRepository(
 
     private val _practice = MutableStateFlow<PracticeUi?>(null)
     val practice: StateFlow<PracticeUi?> = _practice
+    private var practiceEntryId: String? = null
     private var practiceWorld: World? = null
     private var practiceDrill: PracticeDrill? = null
     private var practiceTicker: Job? = null
@@ -150,7 +151,7 @@ class RunRepository(
             r
         }
         // Session feedback already shows in the care panel; pop up refusals and quick-action results only.
-        val popup = !result.ok || cmd is Command.CheckDiaper || cmd is Command.StartBreak || cmd is Command.HandOffNeeds ||
+        val popup = !result.ok || cmd is Command.StartBreak || cmd is Command.HandOffNeeds ||
             cmd is Command.HandOffNight || cmd is Command.HandOffSession
         if (popup) result.message?.let { _messages.tryEmit(it) }
         return result
@@ -279,7 +280,8 @@ class RunRepository(
 
     // ------------------------------------------------------------------ Practice Room (local clock, no reminders)
 
-    fun startPractice(drill: PracticeDrill) {
+    fun startPractice(drill: PracticeDrill, entryId: String): Boolean {
+        if (practiceEntryId == entryId) return false
         val trial = world
         val w = engine.newPractice(
             drill,
@@ -291,6 +293,7 @@ class RunRepository(
             seed = now(),
         )
         engine.apply(w, Command.SetPresence(Presence.FOREGROUND), now())
+        practiceEntryId = entryId
         practiceWorld = w
         practiceDrill = drill
         publishPractice()
@@ -304,16 +307,19 @@ class RunRepository(
                 publishPractice()
             }
         }
+        return true
     }
 
     fun practiceCommand(cmd: Command) {
         val r = synchronized(this) { practiceWorld?.let { engine.apply(it, cmd, now()) } } ?: return
-        if (!r.ok || cmd is Command.CheckDiaper) r.message?.let { _messages.tryEmit(it) }
+        if (!r.ok) r.message?.let { _messages.tryEmit(it) }
         publishPractice()
     }
 
-    fun endPractice() {
+    fun endPractice(entryId: String) {
+        if (practiceEntryId != entryId) return
         practiceTicker?.cancel()
+        practiceEntryId = null
         practiceWorld = null
         practiceDrill = null
         _practice.value = null

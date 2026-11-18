@@ -58,8 +58,12 @@ internal fun Ctx.buildView(): ChildView {
     val unmet = w.needs.filter { !(it.kind == NeedKind.WET && it.phase == NeedPhase.CUE) }
     val strongest = unmet.maxByOrNull { it.phase.ordinal * 10 + priority(it.kind) }
     val held = child.heldBy != null
+    val s = w.session
+    val activeFeed = s?.feed?.transferStartedAt != null && s.feed?.fullnessShown == false && s.runningSince != null &&
+        (s.currentStep?.id?.startsWith("feed") == true || s.currentStep?.id?.startsWith("side") == true)
     val cue = when {
         child.sleep == SleepState.ASLEEP -> if (now - child.sleepSince < 10 * MINUTE || w.needs.isNotEmpty()) "Asleep, squirming and grunting now and then (normal active sleep)" else "Asleep, breathing slowly and evenly"
+        activeFeed -> if (s?.kind == SessionKind.BOTTLE_FEED) "Sucking and swallowing from the bottle" else "Latched, sucking and swallowing"
         strongest != null -> {
             val base = cueFor(strongest.kind, strongest.phase)
             if (held && d < 30 && strongest.phase.ordinal >= NeedPhase.FUSS.ordinal) "Calmer in arms for now, but: ${base.lowercase()}" else base
@@ -68,9 +72,9 @@ internal fun Ctx.buildView(): ChildView {
         held -> "Awake and calm, watching your face"
         else -> "Awake and calm, looking around"
     }
-    val details = unmet.filter { it !== strongest }.map { cueFor(it.kind, it.phase) }.toMutableList()
+    val details = unmet.filter { if (activeFeed) it.kind != NeedKind.HUNGER else it !== strongest }
+        .map { cueFor(it.kind, it.phase) }.toMutableList()
     if (boutActive() && strongest != null) details += "Fussy evening"
-    val s = w.session
     val sessionView = s?.let { sessionView(it) }
     val milk = child.milk
     val demandNow = milk.demandAtRef + accumulateDemand(milk.refTime, now)
@@ -128,8 +132,6 @@ internal fun Ctx.buildView(): ChildView {
     val nwKey = nightWindowKey()
     val nw = nwKey?.let { w.alerts.nightWindows[it] }
     val extreme = settings.preset == RealismPreset.EXTREME && w.mode == RunMode.WEEKEND_TRIAL
-    val activeFeed = s?.feed?.transferStartedAt != null && s.feed?.fullnessShown == false && s.runningSince != null &&
-        (s.currentStep?.id?.startsWith("feed") == true || s.currentStep?.id?.startsWith("side") == true)
     val pose = Pose(
         asleep = child.sleep == SleepState.ASLEEP,
         eyesOpen = child.sleep == SleepState.AWAKE && level.ordinal < DistressLevel.CRYING.ordinal && !(strongest?.kind == NeedKind.TIRED && strongest.phase == NeedPhase.CUE && (now / 4000) % 3 == 0L),

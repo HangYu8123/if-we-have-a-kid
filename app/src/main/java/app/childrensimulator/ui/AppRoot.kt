@@ -29,6 +29,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -45,7 +47,7 @@ class AppState(val container: AppContainer, val nav: NavHostController, val snac
 }
 
 @Composable
-fun AppRoot(container: AppContainer) {
+fun AppRoot(container: AppContainer, onNightChanged: (Boolean) -> Unit) {
     val ui by container.repository.ui.collectAsStateWithLifecycle()
     val nav = rememberNavController()
     val snackbar = remember { SnackbarHostState() }
@@ -54,6 +56,7 @@ fun AppRoot(container: AppContainer) {
     val night = systemDark || (ui.view?.let { it.nightNow && !it.ended && !it.paused } ?: false)
     var reducedMotion by remember { mutableStateOf(container.prefs.reducedMotion) }
 
+    LaunchedEffect(night) { onNightChanged(night) }
     LaunchedEffect(Unit) {
         container.repository.messages.collect { snackbar.showSnackbar(it) }
     }
@@ -81,6 +84,13 @@ fun AppRoot(container: AppContainer) {
                 composable("quiz/{set}") { entry -> QuizScreen(state, ui, post = entry.arguments?.getString("set") == "post") { nav.popBackStack() } }
                 composable("practice/{drill}") { entry ->
                     val drill = PracticeDrill.entries.firstOrNull { it.id == entry.arguments?.getString("drill") } ?: PracticeDrill.ONE_WAKE
+                    LaunchedEffect(entry) {
+                        if (entry.lifecycle.currentState != Lifecycle.State.DESTROYED && state.repo.startPractice(drill, entry.id)) {
+                            entry.lifecycle.addObserver(LifecycleEventObserver { _, event ->
+                                if (event == Lifecycle.Event.ON_DESTROY) state.repo.endPractice(entry.id)
+                            })
+                        }
+                    }
                     PracticeScreen(state, ui, drill, reducedMotion) { nav.popBackStack() }
                 }
             }

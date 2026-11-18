@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -64,7 +65,7 @@ fun BabyCanvas(visual: BabyVisual, description: String, reducedMotion: Boolean, 
     val motion = !reducedMotion
 
     Canvas(modifier.semantics { contentDescription = description }) {
-        val s = min(size.width, size.height) / 280f
+        val s = min(size.width / 360f, size.height / 336f)
         val cx = size.width / 2f
         val cy = size.height * 0.5f
         val night = visual.night
@@ -74,9 +75,10 @@ fun BabyCanvas(visual: BabyVisual, description: String, reducedMotion: Boolean, 
         val rocking = Technique.ROCK in visual.techniques && visual.heldBy != null
         val angle = if (rocking && motion) 6f * sin(2 * PI * rock).toFloat() else 0f
         val breathe = if (motion) 1f + 0.018f * sin(2 * PI * breath).toFloat() else 1f
+        val fit = if (visual.place == Place.BASSINET) 0.88f else 1f
         withTransform({
             rotate(angle, Offset(cx, cy + 120 * s))
-            scale(breathe, breathe, Offset(cx, cy))
+            scale(breathe * fit, breathe * fit, Offset(cx, cy))
         }) {
             drawBaby(visual, s, cx, cy, if (motion) cry else 0.5f)
         }
@@ -116,22 +118,38 @@ private fun DrawScope.drawScene(v: BabyVisual, s: Float, cx: Float, cy: Float, n
     fun c(color: Color) = Color(color.red * dim, color.green * dim, color.blue * dim, color.alpha)
     when (v.place) {
         Place.BASSINET -> {
-            drawOval(c(Color(0xFFE6D3BC)), topLeft = Offset(cx - 150 * s, cy - 120 * s), size = Size(300 * s, 250 * s))
-            drawOval(c(Color(0xFFDDEBF6)), topLeft = Offset(cx - 132 * s, cy - 104 * s), size = Size(264 * s, 218 * s))
+            val rim = Offset(cx - 150 * s, cy - 153 * s)
+            val mattress = Offset(cx - 132 * s, cy - 138 * s)
+            drawOval(
+                Brush.verticalGradient(listOf(c(Color(0xFFF0E1CC)), c(Color(0xFFC8AD91))), rim.y, cy + 155 * s),
+                topLeft = rim, size = Size(300 * s, 308 * s),
+            )
+            drawOval(
+                Brush.verticalGradient(listOf(c(Color(0xFFE9F3FA)), c(Color(0xFFB9D0E2))), mattress.y, cy + 145 * s),
+                topLeft = mattress, size = Size(264 * s, 283 * s),
+            )
+            drawOval(
+                c(Color(0xFFF5F9FC)).copy(alpha = 0.55f),
+                topLeft = Offset(mattress.x + 5 * s, mattress.y + 5 * s),
+                size = Size(254 * s, 273 * s), style = Stroke(width = 1.5f * s),
+            )
             drawHazards(v.hazards, s, cx, cy, ::c)
         }
         Place.CHANGING_TABLE -> {
-            drawRoundRect(c(Color(0xFFF1E4C6)), topLeft = Offset(cx - 150 * s, cy - 115 * s), size = Size(300 * s, 245 * s), cornerRadius = CornerRadius(40 * s))
+            drawRoundRect(c(Color(0xFFD9C399)), topLeft = Offset(cx - 150 * s, cy - 120 * s), size = Size(300 * s, 277 * s), cornerRadius = CornerRadius(40 * s))
+            drawRoundRect(c(Color(0xFFF1E4C6)), topLeft = Offset(cx - 142 * s, cy - 113 * s), size = Size(284 * s, 259 * s), cornerRadius = CornerRadius(34 * s))
             for (i in 0 until 5) {
-                drawLine(c(Color(0xFFE5D2A8)), Offset(cx - 130 * s, cy - 90 * s + i * 50 * s), Offset(cx + 130 * s, cy - 90 * s + i * 50 * s), strokeWidth = 6 * s)
+                val y = cy + (-85 + i * 48) * s
+                drawLine(c(Color(0xFFE1CDA5)), Offset(cx - 123 * s, y), Offset(cx + 123 * s, y), strokeWidth = 2 * s, cap = StrokeCap.Round)
             }
         }
         Place.PLAY_MAT -> {
             val colors = listOf(Color(0xFFF6C9C0), Color(0xFFC9E3C6), Color(0xFFC7DAF0), Color(0xFFF4E3B0))
+            drawRoundRect(c(Color(0xFFAE9B88)), topLeft = Offset(cx - 150 * s, cy - 115 * s), size = Size(300 * s, 244 * s), cornerRadius = CornerRadius(18 * s))
             for (i in 0 until 4) {
-                val x = cx - 150 * s + (i % 2) * 150 * s
-                val y = cy - 115 * s + (i / 2) * 120 * s
-                drawRect(c(colors[i]), topLeft = Offset(x, y), size = Size(150 * s, 120 * s))
+                val x = cx - 146 * s + (i % 2) * 147 * s
+                val y = cy - 111 * s + (i / 2) * 119 * s
+                drawRoundRect(c(colors[i]), topLeft = Offset(x, y), size = Size(145 * s, 117 * s), cornerRadius = CornerRadius(13 * s))
             }
         }
         Place.ARMS -> {
@@ -159,7 +177,7 @@ private fun DrawScope.drawHazards(hazards: List<String>, s: Float, cx: Float, cy
                 drawCircle(c(Color(0xFFB98552)), radius = 9 * s, center = Offset(cx - 110 * s, cy - 50 * s))
                 drawCircle(c(Color(0xFFB98552)), radius = 9 * s, center = Offset(cx - 80 * s, cy - 50 * s))
             }
-            "bumper" -> drawOval(c(Color(0xFFB7D3A8)), topLeft = Offset(cx - 132 * s, cy - 104 * s), size = Size(264 * s, 218 * s), style = Stroke(width = 16 * s))
+            "bumper" -> drawOval(c(Color(0xFFB7D3A8)), topLeft = Offset(cx - 124 * s, cy - 130 * s), size = Size(248 * s, 267 * s), style = Stroke(width = 14 * s))
             "nursing_pillow" -> drawArc(c(Color(0xFFF2D27E)), startAngle = 200f, sweepAngle = 140f, useCenter = false, topLeft = Offset(cx + 40 * s, cy - 40 * s), size = Size(90 * s, 110 * s), style = Stroke(width = 22 * s, cap = StrokeCap.Round))
         }
     }
@@ -229,11 +247,18 @@ private fun DrawScope.drawBaby(v: BabyVisual, s: Float, cx: Float, cy: Float, cr
         }
     }
     if (v.bottle) {
-        withTransform({ rotate(-35f, Offset(cx + 40 * s, cy - 40 * s)) }) {
-            drawRoundRect(c(Color(0xFFF9F7EF)), topLeft = Offset(cx + 30 * s, cy - 60 * s), size = Size(34 * s, 80 * s), cornerRadius = CornerRadius(10 * s))
-            drawRect(c(Color(0xFFF1E3B5)), topLeft = Offset(cx + 32 * s, cy - 20 * s), size = Size(30 * s, 38 * s))
-            drawRoundRect(c(Color(0xFF8FB7D9)), topLeft = Offset(cx + 28 * s, cy - 68 * s), size = Size(38 * s, 12 * s), cornerRadius = CornerRadius(4 * s))
-            drawOval(c(Color(0xFFE8C8A0)), topLeft = Offset(cx + 39 * s, cy - 84 * s), size = Size(16 * s, 18 * s))
+        val mouth = Offset(cx + p.headTurn * 14 * s, cy - 25 * s)
+        rotate(10f, mouth) {
+            drawOval(c(Color(0xFFE8C8A0)), topLeft = mouth + Offset(-2 * s, -7 * s), size = Size(21 * s, 14 * s))
+            drawRoundRect(
+                Brush.verticalGradient(listOf(c(Color(0xFFFFFDF7)), c(Color(0xFFE8D9AA))), mouth.y - 15 * s, mouth.y + 15 * s),
+                topLeft = mouth + Offset(22 * s, -15 * s), size = Size(76 * s, 30 * s), cornerRadius = CornerRadius(8 * s),
+            )
+            drawRoundRect(c(Color(0xFF8FB7D9)), topLeft = mouth + Offset(14 * s, -17 * s), size = Size(14 * s, 34 * s), cornerRadius = CornerRadius(4 * s))
+            for (i in 0 until 3) {
+                val x = mouth.x + (48 + i * 11) * s
+                drawLine(c(Color(0xFF776E59)), Offset(x, mouth.y + 3 * s), Offset(x, mouth.y + 9 * s), strokeWidth = 1.5f * s, cap = StrokeCap.Round)
+            }
         }
     }
 }

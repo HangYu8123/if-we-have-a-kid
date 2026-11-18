@@ -1,12 +1,15 @@
 package app.childrensimulator.sim
 
 import app.childrensimulator.sim.engine.PracticeDrill
+import app.childrensimulator.sim.engine.Command
 import app.childrensimulator.sim.engine.newPractice
 import app.childrensimulator.sim.engine.planNextWake
 import app.childrensimulator.sim.model.FeedingRoute
+import app.childrensimulator.sim.model.Place
 import app.childrensimulator.sim.model.RunMode
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -32,5 +35,17 @@ class PracticeTest {
         assertEquals(FeedingRoute.FORMULA, bottle.settings.route)
         val breast = engine.newPractice(PracticeDrill.BREAST, "Mia", FeedingRoute.FORMULA, 1, TestSupport.ZONE, TestSupport.startWall(10), seed = 1)
         assertEquals(FeedingRoute.BREAST, breast.settings.route)
+    }
+
+    @Test
+    fun sleepTransferRequiresTheGuidedSleepSpaceCheck() {
+        val now = TestSupport.startWall(10)
+        val w = engine.newPractice(PracticeDrill.SAFE_SLEEP, "Mia", FeedingRoute.FORMULA, 1, TestSupport.ZONE, now, seed = 1)
+
+        val result = engine.apply(w, Command.PutDown(Place.BASSINET), now)
+
+        assertFalse(result.ok)
+        assertEquals(Place.ARMS, w.child.place)
+        assertFalse(w.practice!!.objectiveMet)
     }
 }

@@ -394,7 +394,12 @@ class QuizState(
 )
 
 @Serializable
-class PracticeState(val drillId: String, var objectiveMet: Boolean = false, var debrief: String? = null)
+class PracticeState(
+    val drillId: String,
+    var objectiveMet: Boolean = false,
+    var debrief: String? = null,
+    var guidedSleepTransfer: Boolean = false,
+)
 
 @Serializable
 class World(

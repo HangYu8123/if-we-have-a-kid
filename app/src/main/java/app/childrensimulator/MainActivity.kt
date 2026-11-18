@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.view.WindowCompat
 import app.childrensimulator.sim.engine.Command
 import app.childrensimulator.ui.AppRoot
 
@@ -14,7 +15,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         val container = (application as ChildSimApp).container
         handleIntent(intent)
-        setContent { AppRoot(container) }
+        val systemBars = WindowCompat.getInsetsController(window, window.decorView)
+        setContent {
+            AppRoot(container) { night ->
+                systemBars.isAppearanceLightStatusBars = !night
+                systemBars.isAppearanceLightNavigationBars = !night
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

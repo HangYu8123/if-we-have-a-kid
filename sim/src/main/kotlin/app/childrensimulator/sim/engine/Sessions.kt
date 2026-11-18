@@ -331,7 +331,10 @@ private fun Ctx.onStepEnter(s: CareSession, step: SessionStep) {
             child.heldBy = null
             child.holdStartedAt = null
         }
-        "watch" -> transferToBassinet(Caregiver.PLAYER)
+        "watch" -> {
+            transferToBassinet(Caregiver.PLAYER)
+            w.practice?.guidedSleepTransfer = true
+        }
         "tummy" -> {
             child.heldBy = null
             child.holdStartedAt = null
@@ -567,6 +570,7 @@ internal fun Ctx.handOffSessionInternal(s: CareSession) {
 internal fun Ctx.sessionChoose(choiceId: String): Outcome {
     val s = w.session ?: return Outcome.fail("No care in progress.")
     val step = s.currentStep ?: return Outcome.fail("No step to answer.")
+    val choice = step.choices.firstOrNull { it.id == choiceId } ?: return Outcome.fail("That option isn't available.")
     if (s.runningSince == null) {
         if (w.clock.presence != Presence.FOREGROUND) return Outcome.fail("Open the app to continue care.")
         s.runningSince = now
@@ -581,7 +585,7 @@ internal fun Ctx.sessionChoose(choiceId: String): Outcome {
             s.lastFeedback = "Removed ${HAZARDS[h]}."
             return Outcome.OK
         }
-        if (choiceId == "clear" && s.hazards.isNotEmpty()) {
+        if (s.hazards.isNotEmpty()) {
             val text = "There's still ${HAZARDS[s.hazards.first()]} in the bassinet. Soft items raise the risk of suffocation: clear them first."
             misstep("L-SLEEP-01", text)
             s.lastFeedback = text
@@ -591,7 +595,6 @@ internal fun Ctx.sessionChoose(choiceId: String): Outcome {
         nextStep(s)
         return Outcome.OK
     }
-    val choice = step.choices.firstOrNull { it.id == choiceId } ?: return Outcome.fail("That option isn't available.")
     when (choice.verdict) {
         "blocked" -> {
             val text = choice.coaching ?: "That isn't safe."
@@ -765,6 +768,9 @@ internal fun Ctx.pickUp(): Outcome {
 internal fun Ctx.putDown(place: Place): Outcome {
     if (w.session != null && w.session!!.kind != SessionKind.SETTLE) return Outcome.fail("Finish or stop the current care first.")
     if (child.heldBy != Caregiver.PLAYER) return Outcome.fail("You're not holding $name.")
+    if (place == Place.BASSINET && w.practice?.let { it.drillId == PracticeDrill.SAFE_SLEEP.id && !it.objectiveMet } == true) {
+        return Outcome.fail("Use Transfer to bassinet to check the sleep space first.")
+    }
     if (place == Place.PLAY_MAT) {
         if (child.sleep == SleepState.ASLEEP) return Outcome.fail("Sleeping babies go in the bassinet, on their back.")
         child.heldBy = null

@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -36,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -51,9 +54,12 @@ import app.childrensimulator.sim.engine.Command
 import app.childrensimulator.sim.engine.DistressLevel
 import app.childrensimulator.sim.engine.Mouth
 import app.childrensimulator.sim.engine.PresetRules
+import app.childrensimulator.sim.engine.PracticeDrill
 import app.childrensimulator.sim.engine.SessionView
 import app.childrensimulator.sim.model.Caregiver
 import app.childrensimulator.sim.model.FeedingRoute
+import app.childrensimulator.sim.model.LogEntry
+import app.childrensimulator.sim.model.LogType
 import app.childrensimulator.sim.model.Place
 import app.childrensimulator.sim.model.RealismPreset
 import app.childrensimulator.sim.model.RunSettings
@@ -72,8 +78,8 @@ fun HomeScreen(state: AppState, ui: RunUi, reducedMotion: Boolean) {
         settings = settings,
         reducedMotion = reducedMotion,
         feedback = ui.lastFeedback,
+        log = ui.log,
         send = { state.repo.send(it) },
-        practice = false,
     )
 }
 
@@ -85,17 +91,24 @@ fun CareView(
     settings: RunSettings,
     reducedMotion: Boolean,
     feedback: String?,
+    log: List<LogEntry>,
     send: (Command) -> Unit,
-    practice: Boolean,
+    practiceDrill: PracticeDrill? = null,
+    modifier: Modifier = Modifier,
     header: @Composable () -> Unit = {},
 ) {
     val rules = PresetRules.of(settings.preset)
+    val practice = practiceDrill != null
     var showHints by remember { mutableStateOf(state.prefs.showHints) }
     var endDialog by remember { mutableStateOf(false) }
     var breakDialog by remember { mutableStateOf(false) }
     var presencePrompt by remember { mutableStateOf(false) }
     val haptics = LocalHapticFeedback.current
     val sound = state.container.crySound
+    val lastDiaperCheck = remember(log) { log.lastOrNull { it.type == LogType.CHECK } }
+    val diaperFeedback = lastDiaperCheck?.takeIf {
+        view.now - it.t < 25_000 && it.wall >= (view.lastChangeWall ?: Long.MIN_VALUE)
+    }?.text
 
     LaunchedEffect(view.level, view.paused, view.ended) {
         sound.update(if (view.paused || view.ended) null else view.level, state.prefs.soundOn, quiet = view.nightNow)
@@ -121,7 +134,7 @@ fun CareView(
     }
 
     Column(
-        Modifier
+        modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp, vertical = 12.dp),
@@ -133,7 +146,7 @@ fun CareView(
         BabyCard(view, settings, reducedMotion, practice)
         ContextLine(view)
         feedback?.let { SectionCard(container = MaterialTheme.colorScheme.tertiaryContainer) { Text(it, color = MaterialTheme.colorScheme.onTertiaryContainer) } }
-        CarePanel(view, settings, practice, send)
+        CarePanel(view, settings, practiceDrill, diaperFeedback, send)
         if (rules.metersAlways || (rules.hintsOnRequest && !practice) || settings.preset == RealismPreset.REALISTIC || practice) {
             HintsCard(view, rules.metersAlways || practice, showHints) {
                 showHints = it
@@ -192,12 +205,12 @@ fun CareView(
 }
 
 @Composable
-private fun CarePanel(view: ChildView, settings: RunSettings, practice: Boolean, send: (Command) -> Unit) {
+private fun CarePanel(view: ChildView, settings: RunSettings, practiceDrill: PracticeDrill?, diaperFeedback: String?, send: (Command) -> Unit) {
     val session = view.session
     if (view.ended) {
         SectionCard(container = MaterialTheme.colorScheme.primaryContainer) {
-            Text(if (practice) "Practice finished" else "The trial has ended", style = MaterialTheme.typography.titleMedium)
-            Text(if (practice) "Leave the Practice Room when you're ready." else "Open the Report tab for your Care Report and reflection prompts.")
+            Text(if (practiceDrill != null) "Practice finished" else "The trial has ended", style = MaterialTheme.typography.titleMedium)
+            Text(if (practiceDrill != null) "Leave the Practice Room when you're ready." else "Open the Report tab for your Care Report and reflection prompts.")
         }
     } else if (view.paused) {
         SectionCard(container = MaterialTheme.colorScheme.secondaryContainer) {
@@ -208,7 +221,7 @@ private fun CarePanel(view: ChildView, settings: RunSettings, practice: Boolean,
     } else if (session != null) {
         SessionPanel(session, view, send)
     } else {
-        ActionPanel(view, settings, send)
+        ActionPanel(view, settings, diaperFeedback, practiceDrill == PracticeDrill.SAFE_SLEEP, send)
     }
 }
 
@@ -262,7 +275,10 @@ private fun DutyCard(view: ChildView, settings: RunSettings, send: (Command) -> 
 @Composable
 private fun BabyCard(view: ChildView, settings: RunSettings, reducedMotion: Boolean, practice: Boolean) {
     val session = view.session
-    val hazards = session?.step?.takeIf { it.id == "space" }?.choices?.filter { it.id.startsWith("remove:") }?.map { it.id.removePrefix("remove:") } ?: emptyList()
+    val sleepSpace = session?.step?.takeIf { it.id == "space" }
+    val hazards = sleepSpace?.choices.orEmpty().mapNotNull { choice ->
+        choice.id.takeIf { it.startsWith("remove:") }?.removePrefix("remove:")
+    }
     val visual = BabyVisual(
         pose = view.pose,
         place = view.place,
@@ -271,7 +287,7 @@ private fun BabyCard(view: ChildView, settings: RunSettings, reducedMotion: Bool
         skinTone = settings.skinTone,
         hazards = hazards,
         bottle = session?.kind == SessionKind.BOTTLE_FEED && view.pose.mouth == Mouth.SUCKING,
-        night = view.nightNow && !practice,
+        night = view.nightNow && !view.paused && !view.ended && !practice,
     )
     val description = "${view.name}, ${view.level.label.lowercase()}: ${view.cue}"
     SectionCard(container = MaterialTheme.colorScheme.surfaceContainer) {
@@ -294,13 +310,14 @@ private fun BabyCard(view: ChildView, settings: RunSettings, reducedMotion: Bool
         Text(view.cue, style = MaterialTheme.typography.titleLarge, modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
         view.cueDetails.forEach { Text("Also: $it", style = MaterialTheme.typography.bodyMedium) }
     }
-    if (hazards.isNotEmpty() && view.place != Place.BASSINET) {
-        // The sleep-space check: show the bassinet itself, with whatever still needs clearing.
+    if (sleepSpace != null && view.place != Place.BASSINET) {
+        val spaceDescription = if (hazards.isEmpty()) "The clear bassinet"
+        else "The bassinet, with: " + hazards.joinToString(", ") { it.replace('_', ' ') }
         SectionCard {
             Text("The bassinet", style = MaterialTheme.typography.titleMedium)
             BabyCanvas(
                 visual.copy(place = Place.BASSINET, heldBy = null, techniques = emptySet(), showBaby = false),
-                "The bassinet, with: " + hazards.joinToString(", ") { it.replace('_', ' ') },
+                spaceDescription,
                 reducedMotion,
                 Modifier.fillMaxWidth().height(170.dp),
             )
@@ -321,7 +338,7 @@ private fun ContextLine(view: ChildView) {
         view.lastFeedStartWall?.let { add("Last feed started ${fmtClock(it)} (${fmtAgo(view.wallNow, it)})") }
         view.lastChangeWall?.let { add("Last change ${fmtClock(it)}") }
         add((if (view.sleep == SleepState.ASLEEP) "Asleep " else "Awake ") + fmtDuration(view.wallNow - view.awakeOrAsleepSinceWall))
-        if (view.bottleReady) add("A bottle is ready")
+        if (view.bottleReady && view.session?.kind != SessionKind.BOTTLE_FEED) add("A bottle is ready")
     }
     Text(parts.joinToString(" · "), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
 }
@@ -390,9 +407,22 @@ private fun SessionPanel(session: SessionView, view: ChildView, send: (Command) 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ActionPanel(view: ChildView, settings: RunSettings, send: (Command) -> Unit) {
+private fun ActionPanel(
+    view: ChildView,
+    settings: RunSettings,
+    diaperFeedback: String?,
+    requiresSleepSpaceCheck: Boolean,
+    send: (Command) -> Unit,
+) {
     val asleep = view.sleep == SleepState.ASLEEP
     val held = view.heldBy == Caregiver.PLAYER
+    val diaperSection = remember { BringIntoViewRequester() }
+    LaunchedEffect(diaperFeedback) {
+        if (diaperFeedback != null) {
+            withFrameNanos { }
+            diaperSection.bringIntoView()
+        }
+    }
     SectionCard {
         Text("Feed", style = MaterialTheme.typography.titleMedium)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -404,15 +434,22 @@ private fun ActionPanel(view: ChildView, settings: RunSettings, send: (Command) 
             }
             FilledTonalButton(onClick = { send(Command.StartSession(SessionKind.BURP)) }) { Text("Burp") }
         }
-        Text("Diaper", style = MaterialTheme.typography.titleMedium)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            FilledTonalButton(onClick = { send(Command.CheckDiaper) }) { Text("Check diaper") }
-            FilledTonalButton(onClick = { send(Command.StartSession(SessionKind.DIAPER_CHANGE)) }) { Text("Change diaper") }
+        Column(Modifier.bringIntoViewRequester(diaperSection), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Diaper", style = MaterialTheme.typography.titleMedium)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilledTonalButton(onClick = { send(Command.CheckDiaper) }) { Text("Check diaper") }
+                FilledTonalButton(onClick = { send(Command.StartSession(SessionKind.DIAPER_CHANGE)) }) { Text("Change diaper") }
+            }
+            diaperFeedback?.let {
+                Text(it, modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite })
+            }
         }
         Text("Comfort", style = MaterialTheme.typography.titleMedium)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             if (held) {
-                FilledTonalButton(onClick = { send(Command.PutDown(Place.BASSINET)) }) { Text("Lay in bassinet") }
+                if (!requiresSleepSpaceCheck) {
+                    FilledTonalButton(onClick = { send(Command.PutDown(Place.BASSINET)) }) { Text("Lay in bassinet") }
+                }
                 if (!asleep) FilledTonalButton(onClick = { send(Command.PutDown(Place.PLAY_MAT)) }) { Text("Lay on play mat") }
             } else {
                 Button(onClick = { send(Command.PickUp) }) { Text("Pick up and hold") }

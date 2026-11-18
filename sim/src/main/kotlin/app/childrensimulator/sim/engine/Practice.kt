@@ -55,7 +55,8 @@ internal fun Ctx.checkPracticeObjective() {
         PracticeDrill.ONE_WAKE.id -> s.count("feed.PLAYER") >= 1 && s.count("change.PLAYER") >= 1
         PracticeDrill.BOTTLE.id, PracticeDrill.BREAST.id -> s.count("feed.PLAYER") >= 1
         PracticeDrill.DIAPER.id -> s.count("change.PLAYER") >= 1
-        PracticeDrill.SAFE_SLEEP.id -> child.sleep == SleepState.ASLEEP && child.place == Place.BASSINET && child.heldBy == null
+        PracticeDrill.SAFE_SLEEP.id -> p.guidedSleepTransfer &&
+            child.sleep == SleepState.ASLEEP && child.place == Place.BASSINET && child.heldBy == null
         PracticeDrill.FUSSY.id -> child.sleep == SleepState.ASLEEP
         else -> false
     }
