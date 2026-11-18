@@ -1,6 +1,6 @@
 # 11 — Technical Architecture (Android)
 
-> Status: Draft v0.2 · 2026-11-17
+> Status: Draft v0.3 · 2026-11-18
 > See [01 Age and time](01-age-and-time-model.md), [05 Alerts](05-realism-levels-and-notifications.md) and [12 Roadmap](12-roadmap-and-open-questions.md).
 
 ## 1. Platform and stack
@@ -121,7 +121,7 @@ Track requested time, receiver time, post attempt, channel configuration when kn
 
 ## 7. Inputs and accessibility
 
-Start with touch and accessible equivalents. Provide labeled steps, large targets, screen-reader descriptions for cues, text and optional haptics for audio, reduced motion and flexible prompting. Later prototypes can add movement or voice while the app is in use. Alternative controls share the same simulated result. Motion is a game control. A phone reading carries no information about real infant handling safety.
+Start with touch and accessible equivalents. Touching the drawn baby is hit-tested against the same geometry the canvas draws (face, hands, tummy, diaper, feet), and the magnifier button is the accessible equivalent of a touch check. Provide labeled steps, large targets, screen-reader descriptions for cues, text and optional haptics for audio, reduced motion and flexible prompting. Later prototypes can add movement or voice while the app is in use. Alternative controls share the same simulated result. Motion is a game control. A phone reading carries no information about real infant handling safety.
 
 ## 8. Content pipeline
 
@@ -129,7 +129,7 @@ Validate [age-profiles.json](data/age-profiles.json) on load. Require unique sor
 
 ## 9. Art and audio
 
-Use a small set of readable 2D poses and licensed sounds for newborn cues. Provide simultaneous text descriptions. Distress intensity can affect in-app presentation and feedback. A particular sound never provides a diagnosis. Additional stages can add animation and voice sets after the newborn loop works.
+Use a small set of readable 2D poses and licensed sounds for newborn cues. The baby, nursery, care overlays, reactions and every action icon are drawn in Compose `Canvas` code, with no bitmap assets, so they scale, dim at night and follow reduced motion. Provide simultaneous text descriptions. Distress intensity can affect in-app presentation and feedback. A particular sound never provides a diagnosis. Additional stages can add animation and voice sets after the newborn loop works.
 
 ## 10. Privacy
 
@@ -165,7 +165,7 @@ Use the Gradle wrapper and Android lint. Run pure JVM simulation checks on each 
 
 Check the Play target SDK floor, current alarm and notification policy, notification channel behavior and selected Android tooling on supported devices before release. Gate the audible path on observed device behavior and indicate which fallback the player is using.
 
-## 17. v0.1.0 implementation map
+## 17. Implementation map (v0.2.0)
 
 | Doc concept | Code |
 |---|---|
@@ -177,3 +177,9 @@ Check the Play target SDK floor, current alarm and notification policy, notifica
 | Delivery records (§6.4) | `AlertState.ledger`, `Alerts.kt` (`reconcileAlerts`) |
 | Balance runner (§12) | `sim/src/test/.../BalanceTest.kt` with the `CareBot` caregiver bot |
 | Content pipeline (§8) | `tools/content/build-lessons.mjs` (docs/09 → `lessons.json`); the app bundles `docs/data/age-profiles.json` and validates it on load |
+| Living baby and nursery (§9, docs/10 §11) | `ui/BabyCanvas.kt`: `BabyVisual` (pose, place, `BabyActivity`, room, hour), `BabyFxState` (touch and reaction animations), `hitTestBaby` |
+| Touch checks (§7, docs/10 §5.1) | `ui/BabyStage.kt`: `BabyStage`, `observations` (uses the sim's public `cueFor`), `CheckPanel`, `HintMode` |
+| Picture controls (docs/10 §5.2) | `ui/CareIcons.kt` (`CareIcon`, `stepIcon`, `choiceIcon`, `choiceCaption`); `ActionTile` and `ChoiceTile` in `ui/BabyStage.kt` |
+| Reactions (docs/10 §1.1) | `reactionFor` in `ui/HomeScreen.kt` maps new care-log entries to emotes |
+| Moments together (docs/10 §1.1) | `ui/Moments.kt`, derived from the care log and shown in the Report tab |
+| Quick start (docs/10 §3) | `ui/OnboardingScreen.kt` |

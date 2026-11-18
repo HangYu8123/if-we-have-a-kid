@@ -6,7 +6,8 @@ import kotlin.math.max
 
 // ------------------------------------------------------------------ what the player can observe (docs/02 §3, docs/10 §5)
 
-internal fun cueFor(kind: NeedKind, phase: NeedPhase): String = when (kind) {
+/** What a caregiver can observe for a need at a phase (docs/02 §3). Public so the app can show it when the player checks the baby. */
+fun cueFor(kind: NeedKind, phase: NeedPhase): String = when (kind) {
     NeedKind.HUNGER -> when (phase) {
         NeedPhase.CUE -> "Stirring, rooting, hands to mouth"
         NeedPhase.FUSS -> "Fussing, rooting and sucking on fists"

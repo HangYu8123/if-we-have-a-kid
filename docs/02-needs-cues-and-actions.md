@@ -122,7 +122,7 @@ A safety concern takes an authored prevention or help-seeking path. Health scena
 
 ## 3. Cue vocabulary: what the child "says"
 
-Many cues have **more than one meaning on purpose**. The player has to combine cues with **context** (time since the last feed, nap or diaper; recent events) and **checks** (diaper check, touching the chest for temperature, offering a finger to test sucking). This is the core "reading your child" skill ([04](04-crying-and-soothing.md)).
+Many cues have **more than one meaning on purpose**. The player has to combine cues with **context** (time since the last feed, nap or diaper; recent events) and **checks** (diaper check, touching the chest for temperature, offering a finger to test sucking). This is the core "reading your child" skill ([04](04-crying-and-soothing.md)). In the app, checks are touches: the face (rooting toward a finger), a hand (grasp, fists), the tummy (gas), the diaper and the feet. Cue text appears only after a check ([10](10-game-design-and-scoring.md) §5.1).
 
 | Cue | Ages | Possible meanings |
 |---|---|---|

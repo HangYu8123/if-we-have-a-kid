@@ -89,6 +89,9 @@ class AppPrefs(context: Context) {
     var showHints: Boolean
         get() = p.getBoolean("hints", false)
         set(v) = p.edit().putBoolean("hints", v).apply()
+    var checkTipSeen: Boolean
+        get() = p.getBoolean("checkTip", false)
+        set(v) = p.edit().putBoolean("checkTip", v).apply()
     var exactNightAlarms: Boolean
         get() = p.getBoolean("exactNight", false)
         set(v) = p.edit().putBoolean("exactNight", v).apply()

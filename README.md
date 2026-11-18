@@ -2,15 +2,17 @@
 
 An Android game for adults exploring what it takes to care for a child. Read a virtual child's cues, work through feeding, diaper changes, soothing and settling, and find help when tasks overlap. Care takes time and can interrupt the day. Short lessons explain the choices players make.
 
-**Status** · First playable build (v0.1.0, November 17, 2026): Phase 0 foundations and the Phase 1 **Newborn Weekend Trial** from the [roadmap](docs/12-roadmap-and-open-questions.md). Design docs are draft v0.2. The lesson and health content is a draft that has not been reviewed by a pediatric professional.
+**Status** · v0.2.0 (November 18, 2026): Phase 0 foundations and the Phase 1 **Newborn Weekend Trial** from the [roadmap](docs/12-roadmap-and-open-questions.md), reworked after the first playtest: a one-screen start, picture controls, touch-to-check hints, a living baby that reacts, and pet-game touches ([12](docs/12-roadmap-and-open-questions.md) §8). Design docs are draft v0.3. The lesson and health content is a draft that has not been reviewed by a pediatric professional.
 
 ## The first playable trial
 
-Care for one three-week-old for **48 real hours**. Start with **Standard** realism and choose what the overnight helper covers. The trial opens with both hunger and a dirty diaper in one wake. Check the cues, carry out timed care steps and review how the care went. **Extreme Real** can offer up to two opt-in audible wake-ups per sleep window through Android notifications.
+Care for one three-week-old for **48 real hours**. Setup is one screen: meet the baby and pick how real it should feel (Standard is recommended); name, look, feeding and nights are optional. The trial opens with both hunger and a dirty diaper in one wake. Touch the baby to check on them, carry out timed care steps and review how the care went. **Extreme Real** can offer up to two opt-in audible wake-ups per sleep window through Android notifications.
 
 What's in the app:
 
-- **The baby.** An animated 2D baby with poses and text cues: rooting, hands to mouth, fussing, crying, yawning, gas, active sleep. Needs are hunger, wet and dirty diapers, gas, tiredness, closeness and overstimulation. Each escalates from cue to fuss to cry to hard cry on age-based timers ([03](docs/03-realistic-frequency-tables.md) §9).
+- **The baby.** A living 2D baby in a nursery whose window follows the real time of day. They breathe, blink, wiggle and kick, flail and tremble when crying, and show cues in their body: rooting, hands to mouth, fussing, yawning, gas, active sleep. Needs are hunger, wet and dirty diapers, gas, tiredness, closeness and overstimulation. Each escalates from cue to fuss to cry to hard cry on age-based timers ([03](docs/03-realistic-frequency-tables.md) §9).
+- **Check by touch.** Touch the face, hands, tummy, diaper or feet, or use the magnifier. The baby answers with a newborn reflex (rooting, grasping, kicking) and you see what you notice. Hints and meters appear only in that check, as the realism level allows ([10](docs/10-game-design-and-scoring.md) §5.1).
+- **Picture controls and reactions.** Every action, care step and choice is a drawn, animated picture. The baby's body shows the care (sucking, patting, wiping, playing) and answers with hearts, a "burp!", sparkles or notes. **Moments together** collects postcard snapshots of firsts in the Report tab.
 - **Hands-on care that takes time.**
   - Guided sessions: prepare a formula bottle, paced bottle feed, breast/chestfeed, burp, diaper change, safe-sleep settle and transfer, talk and play, tummy time.
   - Each step has a real duration scaled by realism: Gentle 15%, Standard 33%, Realistic 60%, Extreme 100%.

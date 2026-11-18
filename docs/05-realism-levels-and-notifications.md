@@ -1,6 +1,6 @@
 # 05 — Realism Levels, Notifications & Night Wake-ups
 
-> Status: Draft v0.2 · 2026-11-17
+> Status: Draft v0.3 · 2026-11-18
 > For age and growth pace see [01](01-age-and-time-model.md). For Android scheduling see [11](11-technical-architecture.md) §6.
 
 ## 1. Two independent dials
@@ -20,9 +20,11 @@ The age-based routine runs in all four presets. In Gentle, additional background
 | Bonus response grace | +20 min | +10 min | None | None |
 | Hands-on action duration | ~15% of reference | ~33% | ~60% | Full reference |
 | Long-session prompts | Optional guided steps | Optional guided steps | Optional, adjustable presence prompts | Enabled by default, with adjustable timing |
-| In-app information | Clear labels, meters and hints | Meters and hints on request | Cues, care log and optional hints | Cues and care log. Accessibility descriptions remain enabled |
+| In-app information (shown when the player checks the baby) | Cues, meters and hints | Cues, meters and hints | Cues, care log and hints behind "Show hints" | Cues and care log. Accessibility descriptions remain enabled |
 | Routine background alerts | Up to 8 per active 24 h | Prioritize actionable care | Bundle any eligible care | Same daytime rules as Realistic |
 | If care goes unanswered | Helper handles it. The outcome appears in the log | Escalation and helper handoff | Escalation and helper handoff | Escalation and helper handoff |
+
+In every preset the animation shows the baby's behavior. Cue text, meters and hints appear only when the player checks the baby, by touching a body part or using the magnifier ([10](10-game-design-and-scoring.md) §5.1). Checking is the request for hints.
 
 **Custom** can vary hinting, grace, interaction time, coverage and night delivery. The release shares the same limits and consent behavior for any audible night setting. Display a preview based on the selected age and schedule.
 

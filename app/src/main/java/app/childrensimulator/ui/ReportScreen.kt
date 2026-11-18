@@ -51,6 +51,8 @@ fun ReportScreen(state: AppState, ui: RunUi) {
             style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
+        MomentsSection(ui.log, ui.settings?.skinTone ?: 1, r.route)
+
         Title("Workload")
         SectionCard {
             StatRow("Feeds (you / $helper)", "${r.feedsPlayer} / ${r.feedsHelper}")

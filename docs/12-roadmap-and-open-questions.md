@@ -1,6 +1,6 @@
 # 12 — Roadmap, Risks & Open Questions
 
-> Status: Draft v0.2 · 2026-11-17
+> Status: Draft v0.3 · 2026-11-18
 
 ## 1. Phase overview
 
@@ -99,7 +99,25 @@ Confirm the launch region and distribution channel before final content or Play 
 
 Start with the age resolver, event queue, feed/change/settle fixture and basic UI. Exercise notifications on hardware alongside the first loop. Use the logged behavior to tune care workload, then build the full trial and first lessons.
 
-## 8. Build status — v0.1.0 (2026-11-17)
+## 8. Build status
+
+### v0.2.0 (2026-11-18): playtest feedback
+
+A playtest of v0.1.0 gave five notes. All five are addressed in the app; the simulation, balance and alerts are unchanged.
+
+| Feedback | Change |
+|---|---|
+| Setup too complex and wordy; give a default baby and only ask for effort | One-screen quick start: a ready-made baby and four realism cards with effort bars. Details are optional and editable later ([10](10-game-design-and-scoring.md) §3) |
+| Options are all words; make actions visual and animate the baby | Every action, step and choice is a drawn, animated picture. The baby's body shows the care: sucking, patting, wiping, playing, tummy lifts ([10](10-game-design-and-scoring.md) §5.2, §11) |
+| Hints only when checking the baby | Cue text, meters and hints appear only after touching a body part or using the magnifier ([10](10-game-design-and-scoring.md) §5.1, [05](05-realism-levels-and-notifications.md) §2) |
+| The baby should be alive and react | Breathing, blinking, wiggles and kicks, crying with flailing limbs, newborn reflexes on touch, emote reactions after care |
+| Learn from pet-raising games (Travel Frog, QQ Pet) | A nursery that follows the real time of day, touch interactions, emote bubbles and a Moments album ([10](10-game-design-and-scoring.md) §1.1) |
+
+Checked on the Android 16 emulator: quick start, cheek and hand reflexes, face and diaper checks, bottle-prep picture steps, the "!" reaction on a blocked choice, the diaper-change animation and Moments unlocking. `:sim:test` (including the balance harness) passes unchanged.
+
+Still open from this round: a playtest of the new controls with TalkBack, and whether Gentle should open the check card automatically for first-time players.
+
+### v0.1.0 (2026-11-17)
 
 **Phase 0 is done in code.**
 - Deterministic replay and step-size independence are tested.

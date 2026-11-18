@@ -1,47 +1,45 @@
 package app.childrensimulator.ui
 
 import android.Manifest
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -49,184 +47,173 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import app.childrensimulator.data.QuizQuestion
 import app.childrensimulator.sim.TimeWindow
-import app.childrensimulator.sim.engine.Channels
 import app.childrensimulator.sim.engine.Mouth
 import app.childrensimulator.sim.engine.Pose
 import app.childrensimulator.sim.engine.TrialSetup
+import app.childrensimulator.sim.model.Caregiver
 import app.childrensimulator.sim.model.FeedingRoute
 import app.childrensimulator.sim.model.Place
 import app.childrensimulator.sim.model.RealismPreset
-import app.childrensimulator.sim.model.Technique
 import kotlinx.coroutines.launch
+import java.time.LocalTime
 import java.time.ZoneId
 
-private val presetDescriptions = mapOf(
-    RealismPreset.GENTLE to listOf(
-        "Hands-on care takes about 15% of real time",
-        "Your helper covers your sleep window and anything past 8 reminders a day",
-        "Clear labels, meters and hints; 20 extra minutes before the helper steps in",
-    ),
-    RealismPreset.STANDARD to listOf(
-        "Care takes about a third of real time",
-        "Reminders for hunger, dirty diapers and sustained crying",
-        "Your helper covers your sleep window. You can choose to take one night wake",
-        "Hints on request; 10 extra minutes of grace",
-    ),
-    RealismPreset.REALISTIC to listOf(
-        "Care takes about 60% of real time",
-        "Reminders for every need, day and night, as ordinary notifications",
-        "Cues and the care log; hints are optional",
-    ),
-    RealismPreset.EXTREME to listOf(
-        "Care takes its full real time",
-        "Opt in each night to up to two audible wake-ups; after that your helper takes over",
-        "Cues and the care log only. Presence check-ins during long care",
-    ),
-)
+private fun presetLine(p: RealismPreset, helper: String) = when (p) {
+    RealismPreset.GENTLE -> "15% of real care time. Lots of help and hints."
+    RealismPreset.STANDARD -> "A third of real time. $helper covers your nights."
+    RealismPreset.REALISTIC -> "60% of real time. On call day and night."
+    RealismPreset.EXTREME -> "Full real time. Opt-in night wake-ups."
+}
 
-@OptIn(ExperimentalLayoutApi::class)
+/**
+ * Quick start (feedback v0.2: "setup too complex"): a ready-made baby and one question, how real it should feel.
+ * Name, look, feeding route, helper and sleep window keep sensible defaults and sit behind "Change details".
+ */
 @Composable
 fun OnboardingScreen(state: AppState, onDone: () -> Unit) {
-    var step by rememberSaveable { mutableIntStateOf(0) }
     var name by rememberSaveable { mutableStateOf("Mia") }
     var skin by rememberSaveable { mutableIntStateOf(1) }
     var route by rememberSaveable { mutableStateOf(FeedingRoute.FORMULA) }
     var sleepStart by rememberSaveable { mutableIntStateOf(23 * 60) }
     var sleepEnd by rememberSaveable { mutableIntStateOf(7 * 60) }
     var helperName by rememberSaveable { mutableStateOf("Sam") }
-    var relation by rememberSaveable { mutableStateOf("partner") }
     var preset by rememberSaveable { mutableStateOf(RealismPreset.STANDARD) }
-    var oneWake by rememberSaveable { mutableStateOf(false) }
-    var nightOptIn by rememberSaveable { mutableStateOf(false) }
-    val answers = remember { mutableStateMapOf<String, String>() }
+    var customize by rememberSaveable { mutableStateOf(false) }
+    var starting by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-    val steps = 6
+    val fx = rememberBabyFx()
 
-    Column(Modifier.fillMaxSize().statusBarsPadding().padding(16.dp)) {
-        LinearProgressIndicator(progress = { (step + 1) / steps.toFloat() }, modifier = Modifier.fillMaxWidth())
-        Spacer(Modifier.height(12.dp))
-        // A fresh scroll position for each step.
-        key(step) { Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            when (step) {
-                0 -> WelcomeStep(state)
-                1 -> {
-                    Text("Your baby", style = MaterialTheme.typography.headlineSmall)
-                    OutlinedTextField(value = name, onValueChange = { name = it.take(16) }, label = { Text("Name") }, singleLine = true, modifier = Modifier.fillMaxWidth())
-                    Text("Appearance", style = MaterialTheme.typography.titleMedium)
-                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        SkinTones.forEachIndexed { i, c ->
-                            Box(
-                                Modifier.size(48.dp).background(c, CircleShape)
-                                    .border(if (skin == i) 3.dp else 1.dp, if (skin == i) MaterialTheme.colorScheme.primary else Color.Gray, CircleShape)
-                                    .clickable(role = Role.RadioButton, onClickLabel = "Skin tone ${i + 1}") { skin = i },
-                            )
-                        }
-                    }
-                    Text("Feeding", style = MaterialTheme.typography.titleMedium)
-                    Choice(route == FeedingRoute.FORMULA, "Formula by bottle", "Prepare each bottle safely, then a paced feed. About 7–9 feeds a day at this age.") { route = FeedingRoute.FORMULA }
-                    Choice(route == FeedingRoute.BREAST, "Breast/chestfeeding", "Position, latch and follow cues. Often 8–11 feeds a day at this age. A helper gives expressed milk.") { route = FeedingRoute.BREAST }
-                    Text("Every feeding choice is respected here. The trial practices the steps either way.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-                2 -> {
-                    Text("Your nights and your helper", style = MaterialTheme.typography.headlineSmall)
-                    Text("Your sleep window decides how night care reaches you. ${name.ifBlank { "The baby" }}'s own rhythm doesn't change.")
-                    TimeStepper("Sleep starts", sleepStart) { sleepStart = it }
-                    TimeStepper("Sleep ends", sleepEnd) { sleepEnd = it }
-                    OutlinedTextField(value = helperName, onValueChange = { helperName = it.take(16) }, label = { Text("Helper's name") }, singleLine = true, modifier = Modifier.fillMaxWidth())
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        for (r in listOf("partner", "parent", "relative", "friend", "nanny")) {
-                            FilterChip(selected = relation == r, onClick = { relation = r }, label = { Text(r) })
-                        }
-                    }
-                    Text("Your helper covers your sleep window in Gentle and Standard, any break you take, and any wake you hand off. Covered care still happens and shows in your report.", style = MaterialTheme.typography.bodyMedium)
-                }
-                3 -> RealismStep(state, preset, { preset = it }, oneWake, { oneWake = it }, nightOptIn, { nightOptIn = it }, helperName)
-                4 -> QuizStep(state.content.quiz.pre, answers)
-                5 -> {
-                    Text("Ready when you are", style = MaterialTheme.typography.headlineSmall)
-                    SectionCard {
-                        StatRow("Baby", "$name, 3 weeks old")
-                        StatRow("Feeding", route.label)
-                        StatRow("Your sleep window", TimeWindow(sleepStart, sleepEnd).label())
-                        StatRow("Helper", "$helperName ($relation)")
-                        StatRow("Realism", preset.label)
-                        StatRow("Length", "48 active hours")
-                    }
-                    Text("The clock starts when you tap Start. Care continues while the app is closed. You can pause, hand off or take a break at any time, and pausing costs nothing.")
-                    Text("This is a simulation for learning. The health content is a draft that has not been reviewed by a pediatric professional, and it is not medical advice.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        } }
-        Row(Modifier.fillMaxWidth().padding(top = 12.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-            if (step > 0) TextButton(onClick = { step-- }) { Text("Back") } else Spacer(Modifier)
-            if (step < steps - 1) {
-                Button(onClick = { step++ }, enabled = step != 1 || name.isNotBlank()) { Text(if (step == 4) (if (answers.isEmpty()) "Skip" else "Continue") else "Next") }
-            } else {
-                Button(onClick = {
-                    state.prefs.practiceQuizPre = answers.entries.joinToString(";") { "${it.key}=${it.value}" }
-                    scope.launch {
-                        state.repo.startTrial(
-                            TrialSetup(
-                                childName = name.trim().ifBlank { "Baby" }, route = route, preset = preset,
-                                sleepWindow = TimeWindow(sleepStart, sleepEnd), helperName = helperName.trim().ifBlank { "Helper" },
-                                helperRelation = relation, zoneId = ZoneId.systemDefault().id, takeOneNightWake = oneWake,
-                                skinTone = skin, seed = System.nanoTime(),
-                            ),
-                        )
-                        if (preset == RealismPreset.EXTREME && nightOptIn) state.repo.dispatch(app.childrensimulator.sim.engine.Command.NightConsent(true))
-                        state.prefs.onboarded = true
-                        onDone()
-                    }
-                }) { Text("Start the 48-hour trial") }
-            }
+    fun start() {
+        if (starting) return
+        starting = true
+        scope.launch {
+            state.repo.startTrial(
+                TrialSetup(
+                    childName = name.trim().ifBlank { "Baby" }, route = route, preset = preset,
+                    sleepWindow = TimeWindow(sleepStart, sleepEnd), helperName = helperName.trim().ifBlank { "Helper" },
+                    helperRelation = "partner", zoneId = ZoneId.systemDefault().id, takeOneNightWake = false,
+                    skinTone = skin, seed = System.nanoTime(),
+                ),
+            )
+            if (preset == RealismPreset.EXTREME && state.repo.canScheduleExact()) state.prefs.exactNightAlarms = true
+            state.prefs.onboarded = true
+            onDone()
         }
     }
-}
+    val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { start() }
 
-@Composable
-private fun WelcomeStep(state: AppState) {
-    var rocking by remember { mutableStateOf(false) }
-    Text("Children Simulator", style = MaterialTheme.typography.headlineSmall)
-    Text("Care for a virtual three-week-old for 48 real hours. Read the baby's cues, then feed, change, soothe and settle them. Care takes real time and continues day and night, even when the app is closed.")
-    SectionCard {
-        StatRow("Feeds", "every 2–3 hours, day and night")
-        StatRow("Diapers", "about 8–11 a day")
-        StatRow("Sleep", "14–17 hours, in short stretches")
-        StatRow("Fussing and crying", "can add up to 1½–2½ hours a day")
-    }
-    Text("Preview a cue", style = MaterialTheme.typography.titleMedium)
-    val pose = Pose(asleep = false, eyesOpen = true, mouth = Mouth.ROOTING, handsToMouth = true, legsUp = false, headTurn = 0.4f, tears = false, redFace = 0f, yawning = false, activeSleep = false, onTummy = false)
-    BabyCanvas(
-        BabyVisual(pose, Place.ARMS, app.childrensimulator.sim.model.Caregiver.PLAYER, if (rocking) setOf(Technique.ROCK) else emptySet(), 1),
-        "Preview: a baby rooting with hands to mouth", state.prefs.reducedMotion, Modifier.fillMaxWidth().height(200.dp),
-    )
-    Text("Turning toward your hand with an open mouth, hands to mouth: early hunger cues. Crying comes later.", fontWeight = FontWeight.SemiBold)
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        FilterChip(selected = rocking, onClick = { rocking = !rocking }, label = { Text("Try it: rock or sway") })
-        Spacer(Modifier.size(8.dp))
-        Text(if (rocking) "Comfort helps for a while, but hunger needs a feed." else "", style = MaterialTheme.typography.bodyMedium)
-    }
-}
-
-@Composable
-private fun Choice(selected: Boolean, title: String, body: String, onClick: () -> Unit) {
-    SectionCard(
-        modifier = Modifier.selectable(selected = selected, onClick = onClick, role = Role.RadioButton),
-        container = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer,
+    Column(
+        Modifier.fillMaxSize().statusBarsPadding().verticalScroll(rememberScrollState()).padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            RadioButton(selected = selected, onClick = null)
-            Spacer(Modifier.size(8.dp))
-            Text(title, style = MaterialTheme.typography.titleMedium)
+        val pose = Pose(
+            asleep = false, eyesOpen = true, mouth = Mouth.NEUTRAL, handsToMouth = false, legsUp = false, headTurn = 0f,
+            tears = false, redFace = 0f, yawning = false, activeSleep = false, onTummy = false,
+        )
+        val now = LocalTime.now()
+        BabyStage(
+            BabyVisual(pose, Place.ARMS, Caregiver.PLAYER, emptySet(), skin, room = true, hour = now.hour + now.minute / 60f),
+            "${name.ifBlank { "Your baby" }}, three weeks old, awake and calm in your arms",
+            state.prefs.reducedMotion, fx,
+            Modifier.fillMaxWidth().height(270.dp),
+            onTouch = { part -> if (part != BodyPart.FACE) fx.react(Reaction.HEARTS) },
+        )
+        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text("Meet ${name.ifBlank { "your baby" }}", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold)
+            Text(
+                "Three weeks old. 48 real hours together, with ${helperName.ifBlank { "a helper" }} to help. Tap ${name.ifBlank { "the baby" }}: try a cheek or a hand.",
+                style = MaterialTheme.typography.bodyLarge,
+            )
         }
-        Text(body, style = MaterialTheme.typography.bodyMedium)
+        Text("How real should it feel?", style = MaterialTheme.typography.titleMedium)
+        RealismGrid(preset, helperName.ifBlank { "Your helper" }) { preset = it }
+        if (preset == RealismPreset.EXTREME) {
+            Text("Turn on audible night wake-ups from the home screen on any night you want them.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        TextButton(onClick = { customize = !customize }) { Text(if (customize) "Hide details" else "Change name, look, feeding or nights") }
+        AnimatedVisibility(customize) {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                OutlinedTextField(value = name, onValueChange = { name = it.take(16) }, label = { Text("Baby's name") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    SkinTones.forEachIndexed { i, c ->
+                        Box(
+                            Modifier.size(44.dp).background(c, CircleShape)
+                                .border(if (skin == i) 3.dp else 1.dp, if (skin == i) MaterialTheme.colorScheme.primary else Color.Gray, CircleShape)
+                                .clickable(role = Role.RadioButton, onClickLabel = "Skin tone ${i + 1}") { skin = i },
+                        )
+                    }
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    ActionTile(CareIcon.BOTTLE, "Formula", TileTone.FEED, { route = FeedingRoute.FORMULA }, Modifier.weight(1f), selected = route == FeedingRoute.FORMULA, reducedMotion = state.prefs.reducedMotion)
+                    ActionTile(CareIcon.BREAST, "Breast/chest", TileTone.FEED, { route = FeedingRoute.BREAST }, Modifier.weight(1f), selected = route == FeedingRoute.BREAST, reducedMotion = state.prefs.reducedMotion)
+                }
+                OutlinedTextField(value = helperName, onValueChange = { helperName = it.take(16) }, label = { Text("Helper's name") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                TimeStepper("Your sleep starts", sleepStart) { sleepStart = it }
+                TimeStepper("Your sleep ends", sleepEnd) { sleepEnd = it }
+                Text("You can change realism, nights and your helper later in Settings.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+        Button(
+            onClick = {
+                if (Build.VERSION.SDK_INT >= 33 && !state.container.notifier.permissionGranted()) permission.launch(Manifest.permission.POST_NOTIFICATIONS) else start()
+            },
+            enabled = name.isNotBlank() && !starting,
+            modifier = Modifier.fillMaxWidth().height(56.dp),
+        ) { Text("Start", style = MaterialTheme.typography.titleMedium) }
+        Text(
+            "A learning simulation, not medical advice. The health content is a draft that hasn't been reviewed by a pediatric professional.",
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun RealismGrid(selected: RealismPreset, helper: String, onSelect: (RealismPreset) -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        for (row in RealismPreset.entries.chunked(2)) {
+            Row(Modifier.fillMaxWidth().height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                for (p in row) {
+                    val on = p == selected
+                    Surface(
+                        shape = RoundedCornerShape(20.dp),
+                        color = if (on) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer,
+                        border = if (on) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null,
+                        modifier = Modifier.weight(1f).fillMaxHeight().selectable(selected = on, onClick = { onSelect(p) }, role = Role.RadioButton),
+                    ) {
+                        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            EffortBars(p.ordinal + 1, if (on) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline)
+                            Text(p.label, style = MaterialTheme.typography.titleMedium)
+                            Text(presetLine(p, helper), style = MaterialTheme.typography.bodySmall)
+                            if (p == RealismPreset.STANDARD) Text("Recommended", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/** One to four bars: how much effort the realism level asks for. */
+@Composable
+private fun EffortBars(level: Int, color: Color) {
+    Canvas(Modifier.width(52.dp).height(22.dp)) {
+        val w = size.width / 4f
+        for (i in 0 until 4) {
+            val h = size.height * (0.4f + 0.2f * i)
+            drawRoundRect(
+                if (i < level) color else color.copy(alpha = 0.2f),
+                topLeft = Offset(i * w + 1.5f, size.height - h), size = Size(w - 3f, h), cornerRadius = CornerRadius(3f),
+            )
+        }
     }
 }
 
@@ -234,76 +221,16 @@ private fun Choice(selected: Boolean, title: String, body: String, onClick: () -
 private fun TimeStepper(label: String, minute: Int, onChange: (Int) -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(label, modifier = Modifier.weight(1f))
-        OutlinedButton(onClick = { onChange((minute - 30 + 1440) % 1440) }) { Text("−30 min") }
-        Text(TimeWindow.hhmm(minute), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(horizontal = 12.dp))
-        OutlinedButton(onClick = { onChange((minute + 30) % 1440) }) { Text("+30 min") }
-    }
-}
-
-@Composable
-private fun RealismStep(
-    state: AppState,
-    preset: RealismPreset,
-    onPreset: (RealismPreset) -> Unit,
-    oneWake: Boolean,
-    onOneWake: (Boolean) -> Unit,
-    nightOptIn: Boolean,
-    onNightOptIn: (Boolean) -> Unit,
-    helperName: String,
-) {
-    val context = LocalContext.current
-    var granted by remember { mutableStateOf(state.container.notifier.permissionGranted()) }
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted = it }
-    Text("How real?", style = MaterialTheme.typography.headlineSmall)
-    Text("Realism changes how much of the work reaches you. The baby's needs are the same in every level. You can change it later.")
-    for (p in RealismPreset.entries) {
-        Choice(preset == p, p.label + if (p == RealismPreset.STANDARD) " (recommended)" else "", presetDescriptions[p]!!.joinToString("\n") { "• $it" }) { onPreset(p) }
-    }
-    if (preset == RealismPreset.STANDARD) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Checkbox(checked = oneWake, onCheckedChange = onOneWake)
-            Text("I'll take one night wake myself ($helperName covers the rest)")
-        }
-    }
-    SectionCard {
-        Text("Notifications", style = MaterialTheme.typography.titleMedium)
-        Text("Reminders reach you when the baby needs care and you're on duty. Android decides sound, vibration and Do Not Disturb.")
-        if (!granted && Build.VERSION.SDK_INT >= 33) {
-            Button(onClick = { launcher.launch(Manifest.permission.POST_NOTIFICATIONS) }) { Text("Allow notifications") }
-        } else {
-            Text("Notifications are allowed.", fontWeight = FontWeight.SemiBold)
-            OutlinedButton(onClick = { state.container.notifier.test(Channels.CARE) }) { Text("Send a test reminder") }
-        }
-    }
-    if (preset == RealismPreset.EXTREME) {
-        SectionCard(container = MaterialTheme.colorScheme.tertiaryContainer) {
-            Text("Audible night wake-ups", style = MaterialTheme.typography.titleMedium)
-            Text("If you opt in for a night, up to two night alerts can play a short crying sound during your sleep window. After two, $helperName covers new wakes. The sound may wake other people nearby. Consent ends with each sleep window, and you can silence or hand off from the notification.")
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(checked = nightOptIn, onCheckedChange = onNightOptIn)
-                Text("Enable for my first night")
-            }
-            if (granted) OutlinedButton(onClick = { state.container.notifier.test(Channels.NIGHT) }) { Text("Test the night sound now") }
-            if (Build.VERSION.SDK_INT >= 31) {
-                val exact = state.repo.canScheduleExact()
-                Text(if (exact) "Exact timing is available on this phone." else "Without exact timing, night alerts are best effort and may be late.", style = MaterialTheme.typography.bodyMedium)
-                if (!exact) {
-                    OutlinedButton(onClick = {
-                        state.prefs.exactNightAlarms = true
-                        context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, Uri.parse("package:${context.packageName}")))
-                    }) { Text("Allow exact timing") }
-                } else {
-                    state.prefs.exactNightAlarms = true
-                }
-            }
-        }
+        OutlinedButton(onClick = { onChange((minute - 30 + 1440) % 1440) }) { Text("−30") }
+        Text(TimeWindow.hhmm(minute), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(horizontal = 10.dp))
+        OutlinedButton(onClick = { onChange((minute + 30) % 1440) }) { Text("+30") }
     }
 }
 
 @Composable
 fun QuizStep(questions: List<QuizQuestion>, answers: MutableMap<String, String>, reveal: Boolean = false) {
     Text("Quick knowledge check", style = MaterialTheme.typography.headlineSmall)
-    Text("Optional. You'll see a matching set after the trial so you can compare.", style = MaterialTheme.typography.bodyMedium)
+    Text("Optional. There's a matching set after the trial so you can compare.", style = MaterialTheme.typography.bodyMedium)
     questions.forEachIndexed { i, q ->
         SectionCard {
             Text("${i + 1}. ${q.text}", style = MaterialTheme.typography.titleMedium)

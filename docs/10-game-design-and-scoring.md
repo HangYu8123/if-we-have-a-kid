@@ -1,11 +1,25 @@
 # 10 — Game Design, Feedback & Progression
 
-> Status: Draft v0.2 · 2026-11-17
+> Status: Draft v0.3 · 2026-11-18 (v0.2.0 playtest feedback)
 > See [05 Realism](05-realism-levels-and-notifications.md), [07 Interactions](07-interactions-and-scenarios.md) and [09 Education](09-education-curriculum.md).
 
 ## 1. Player experience
 
 Make the child and their cues easy to notice. The satisfaction comes from figuring out what to try, seeing a response and learning the rhythm over time. A rough wake can end with a safe handoff and a useful explanation.
+
+### 1.1 What we borrow from pet-raising games
+
+The v0.2.0 playtest asked for the warmth of pet-raising games such as Travel Frog (旅行的青蛙), QQ Pet (QQ宠物) and Tamagotchi-style games. The app borrows their *feel*, not their scoring:
+
+| Pet-game idea | How it appears here |
+|---|---|
+| A cozy home scene that follows the real clock (Travel Frog) | A nursery with a window whose sky follows the local time of day: sun and drifting clouds, dusk, moon and stars. A mobile turns over the bassinet and a night-light glows in the sleep window |
+| Touch the pet and it reacts (QQ Pet) | Touching the baby checks a body part and triggers a real newborn reflex: rooting toward a stroked cheek, gripping a finger, kicking back |
+| Emote bubbles | Short reactions answer care: hearts after a feed or being picked up, a "burp!" bubble, sparkles after a change, notes when shushed, a "!" after an unsafe choice |
+| Picture buttons instead of menus | Every care action, step and choice is a drawn, animated picture with a two- or three-word caption |
+| Postcards and albums (Travel Frog) | **Moments together**: polaroid snapshots collected from real events in the care log ("First feed together", "A good burp", "Asking for help"). Locked ones show "Still ahead" |
+
+What we deliberately leave out: always-on need meters in the higher realism levels, streaks, daily login rewards, scores and anything that makes the baby's needs pause for the player. Moments describe the run and never rate it (§6.4).
 
 ## 2. Modes
 
@@ -18,10 +32,14 @@ Make the child and their cues easy to notice. The satisfaction comes from figuri
 
 ## 3. Onboarding
 
-1. Explain the trial's purpose, length and care workload. Let the player preview one cue and try an accessible care control.
-2. Choose a child's name and feeding route. Set the player's sleep window and see who covers it in each realism preset.
-3. Select a realism preset. For audible night wake-ups, show the bounded opt-in and offer the Android channel test from [05](05-realism-levels-and-notifications.md). If alerts are unavailable, explain the foreground and coverage options.
-4. Offer a short knowledge check. Start the 48-hour clock after the player deliberately starts the trial.
+Since v0.2.0 the start is one screen (playtest: "setup too complex, too wordy").
+
+1. **Meet the baby.** A ready-made three-week-old (default name Mia, formula feeding, helper Sam, sleep window 23:00–07:00) is awake in the player's arms in the nursery. The player can tap a cheek or a hand and see a reflex straight away.
+2. **One question: how real should it feel?** Four cards with an effort meter (one to four bars) and one line each. Standard is preselected and marked recommended.
+3. **Optional details.** "Change name, look, feeding or nights" opens the name, skin tone, feeding route (picture tiles), helper's name and sleep window. Everything can also be changed later in Settings.
+4. **Start.** The 48-hour clock starts only when the player taps Start. On Android 13+ the notification permission is requested at this moment.
+
+The Extreme Real audible opt-in moved to the home screen's duty strip, where it applies per night. The channel tests stay in Settings. The before-trial knowledge check moved to the Learn tab; the Care Report shows "not taken" if it was skipped.
 
 ## 4. Care loop
 
@@ -37,13 +55,30 @@ A care session can be incomplete. Keep completed valid steps. For example, a pau
 
 | Screen | Main jobs |
 |---|---|
-| **Home** | Child and behavior, recent care, direct actions, status of current sessions, and reachable pause or handoff |
-| **Care session** | What to do now, available optional checks, elapsed progress, child cues and how to resume or hand off |
+| **Home** | The baby in the nursery (touch to check), a picture dock of care actions, status of current sessions, and reachable pause or handoff |
+| **Care session** | An animated picture of the current step with a progress ring, picture choices, the child's animated response, and how to resume or hand off |
 | **Log** | Feeds, changes, settling, breaks, alert statuses, choices and helper notes |
 | **Learn** | Short cards, practice and knowledge checks |
 | **Settings and report** | Realism, sleep and alert settings, accessibility, privacy and Care Report |
 
-Gentle shows labels and meters. Standard offers hints and the recent log. Realistic and Extreme show behavior and context in animation and text with an accessible description for each cue. Visual hints and cue accessibility are independent settings. In-app night care uses readable dim colors and large controls.
+### 5.1 Checking the baby
+
+The baby's behavior is always visible in the animation. Cue text, context and hints appear **only when the player checks** (playtest: "hints can be found only when checking the baby"):
+
+| Check | What the player notices |
+|---|---|
+| Touch the **face** | Rooting toward the finger when hungry; hunger, tiredness, overstimulation and closeness cues; tears; active or quiet sleep |
+| Touch a **hand** | The grasp reflex, sucking on fists, clenched fists when crying |
+| Touch the **tummy** | Gas cues (squirming, legs drawn up) or a soft, relaxed belly |
+| Touch the **diaper** | A diaper check (the same as the "Check diaper" tile): dry, wet, dirty or a blowout |
+| Touch the **feet** | A kick back, and a reminder that cool feet are normal: check warmth at the chest or neck |
+| The **magnifier** | A closer look at everything: the main cue and any other cues |
+
+Below the observations, the check card shows what the realism preset allows ([05](05-realism-levels-and-notifications.md) §2): Gentle, Standard and the Practice Room show meters and hints; Realistic shows a "Show hints" button; Extreme Real shows none. Every check ends with the care-log line (last feed, last change, time awake or asleep). A check fades after a minute so the player looks again. Screen readers still get the current cue in the stage description, so cue accessibility does not depend on touch.
+
+### 5.2 Picture controls
+
+Care actions are round picture tiles in soft category colors (feeding, diaper, comfort, sleep, play, help) with short captions. Comfort techniques glow and animate while they are on. Step choices are large picture cards; the full sentence is the accessibility label, so the screen reads two or three words. Choice pictures never hint at which option is safe. In-app night care uses readable dim colors and large controls.
 
 ## 6. Feedback and reports
 
@@ -84,7 +119,7 @@ An unanswered routine need can reach the game's time limit and move to a helper.
 
 ## 10. Progression and challenges
 
-Use illustrations, new play interactions and Memory Book entries to mark the passage of time. Explain what the child can do now and why it changes the work. Give players credit for asking for help and making a safe choice. Starting at a stage for practice can be available before playing through the earlier journey.
+Use illustrations, new play interactions and Memory Book entries to mark the passage of time. The Weekend Trial already collects twelve **Moments together** in the Report tab, derived from the care log (§1.1). Explain what the child can do now and why it changes the work. Give players credit for asking for help and making a safe choice. Starting at a stage for practice can be available before playing through the earlier journey.
 
 | ID | Scenario | Planned format |
 |---|---|---|
@@ -104,6 +139,14 @@ Use illustrations, new play interactions and Memory Book entries to mark the pas
 ## 11. Art and audio
 
 Start with readable 2D poses for awake, asleep, hungry, fussy and content. Use calm background art and add age-appropriate animations in later chapters. Provide descriptions for the behavior on screen and a way to play silently.
+
+Since v0.2.0 the baby is never a still picture (playtest: "it should be like a real baby and react"):
+
+- **Always alive:** breathing (slower and deeper asleep), blinking, small arm and leg movements, twitches in active sleep, yawns that open and close.
+- **Distress shows in the body:** fussing adds restless limbs; crying adds flailing arms, clenched fists, a trembling body and falling tears (from about one month).
+- **Care shows on the baby:** sucking with moving cheeks and bubbles rising in the bottle, a parent's hand patting during a burp, an open diaper and a moving wipe on the changing table, sparkles on a fresh diaper, a parent's face and cooing during talk and play, head lifts during tummy time.
+- **Reactions:** short emotes after care (§1.1) and reflexes when touched (§5.1).
+- Reduced motion freezes all of this to a still, readable pose.
 
 ## 12. Accessibility and inclusion
 
